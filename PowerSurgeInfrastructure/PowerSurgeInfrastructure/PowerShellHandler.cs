@@ -22,9 +22,10 @@ namespace PowerSurgeInfrastructure
 
         public void ProcessRequest(HttpContext context)
         {
-            IPowerShellHttpBroker psBroker = new SimplePowerShellHttpBroker(HttpRuntime.AppDomainAppPath + @"LeslieMVC\LeslieMVC.ps1");
+            IPowerShellHttpBroker psBroker = new SimplePowerShellHttpBroker(HttpRuntime.AppDomainAppPath + @"PowerSurgeMVC\core\PowerSurgeMVC.ps1");
             
-            psBroker.initializeEnvironment(context);          
+            psBroker.initializeEnvironment(context);
+            context.Response.ContentType = "text/html";
             context.Response.Write(psBroker.InvokePowerShell());
             
         }
