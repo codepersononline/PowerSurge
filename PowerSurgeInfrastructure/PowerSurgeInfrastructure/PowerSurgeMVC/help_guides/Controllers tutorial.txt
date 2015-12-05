@@ -1,0 +1,19 @@
+How to make your own LeslieMVC controllers!
+-------------------------------------------
+
+note that these custom psobjects created below for controllers will only allow *public* functions.
+to create controllers with private functions, you will need to New-Module -AsCustomObject etc.
+and then prefix your functions with private and place them in a seperate file to everything else...
+
+ here is an example:
+$ModuleController = New-Module -AsCustomObject -ScriptBlock {
+    $Property = 'value'
+    [string]$Other = 'Can be strongly typed'
+
+    function private:MyMethod {
+        'I do stuff!'
+    }
+
+}
+
+And here is a relevant discussion on programmers.stackexchange.com about private methods in controllers... http://programmers.stackexchange.com/questions/198849/in-mvc-is-it-considered-good-practice-to-have-private-non-action-functions-in

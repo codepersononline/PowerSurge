@@ -1,0 +1,6 @@
+@"
+Angular Controller Index
+$($ddd)
+
+"@
+
