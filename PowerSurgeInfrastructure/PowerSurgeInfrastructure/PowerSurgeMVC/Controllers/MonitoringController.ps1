@@ -14,15 +14,15 @@ $MonitoringController | Add-Member -PassThru -MemberType ScriptMethod ProcessesH
 
 $MonitoringController | Add-Member -PassThru -MemberType ScriptMethod ProcessesJSON -Value { 
     
-    return get-process | select Name,Handles,VM,WS,PM,NPM,Path,Company,CPU | ConvertTo-JSON -ErrorAction SilentlyContinue
+    return get-process | select Name,Handles,VM,WS,PM,NPM,Path,Company,CPU | ConvertTo-JSON -compress -ErrorAction SilentlyContinue
                 
    
 }
 
 $MonitoringController | Add-Member -PassThru -MemberType ScriptMethod ServicesJSON -Value { 
-   
+    $Response.ContentType = "application/json";
 	$response.AddHeader("Access-Control-Allow-Origin", "*") #enable CORS
-    return get-service | select Status, Name, DisplayName | ConvertTo-JSON
+    return (get-service | select Status, Name, DisplayName | ConvertTo-JSON -compress).ToString()
               
    
 }

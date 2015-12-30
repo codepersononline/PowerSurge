@@ -5,9 +5,10 @@ $HomeController | Add-Member -MemberType ScriptMethod -Name "Index" -Value {
 	Get-View "header"
 	Get-View "menu"
     
-    #'<h1> you have been diverted to the default route...</h1>
+    '<h1> you have been diverted to the default route...</h1>'
     #<img src="./LeslieMVC/static/images/meme.jpg">'
-
+    
+   
     get-view "footer"
 }
 

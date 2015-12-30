@@ -1,40 +1,43 @@
-﻿function Import-Controllers{
-    return (ls $LeslieAppBasePath\Controllers -Filter *Controller.ps1 -ErrorAction SilentlyContinue -Force) | select BaseName,Fullname,Name
+﻿function Load-Controllers {
+    return (Get-ChildItem $LeslieAppBasePath\Controllers -Filter *Controller.ps1 -ErrorAction SilentlyContinue -Force) | select BaseName,Fullname,Name
 }
 
-$ViewLoader = New-Object PSObject;
-$ViewLoader | Add-Member -PassThru -MemberType ScriptMethod -name FindView -Value {
+function Find-View {
 param(
     [string]$ViewName
 )   
-    $fileNameToBeFound = [string]::Concat($ViewName,"View*") 
-    $viewPathsInSubfolder = (ls -Path "$LeslieAppBasePath\Views\$invokedControllerName" -Filter $fileNameToBeFound -ErrorAction SilentlyContinue -Force )| where-object { $_.Name -match '(\.html$|\.ps1$)' } |select BaseName,Fullname,Name,Extension
+    New-Variable -Option Constant -Name 'viewFolderPath' -Value ([string]"$LeslieAppBasePath\Views\")
+    New-Variable -Option Constant -Name 'viewSubfolderPath' -Value ([string]"$viewFolderPath\$invokedControllerName")
+    New-Variable -Option Constant -Name 'fileNameToBeFound' -Value ([string]::Concat($ViewName,"View*"))
+    
+    if([System.IO.Directory]::Exists($viewSubfolderPath) -eq $false) {
+        $viewPathsInParentFolder = Get-ViewFilesInFolder $viewSubfolderPath $fileNameToBeFound
+    }
+     
+    [array]$viewPathsInSubfolder = Get-ViewFilesInFolder $viewSubfolderPath $fileNameToBeFound
 
-    if(@($viewPathsInSubfolder).Count -eq 1) { #i.e. only one view with the given name was found.
-        return $viewPathsInSubfolder
+    if($viewPathsInSubfolder.Count -gt 0) { #1 or more views were found, but we'll only return the first one in the array.
+        return $viewPathsInSubfolder[0];
     }
-    if(@($viewPathsInSubfolder).Count -gt 1) { #i.e. more than one view with the given name was found.
-        return $viewPathsInSubfolder[0] #we'll only return the first one.
-    }
-    if(@($viewPathsInSubfolder).Count -eq 0) { #view not found in subfolder, now about to look in parent folder $LeslieAppBasePath\Views\ non recursively
-        $viewPathsInParentFolder = (ls -Path "$LeslieAppBasePath\Views\" -Filter $fileNameToBeFound -ErrorAction SilentlyContinue -Force ) | where-object { $_.Name -match '(\.html$|\.ps1$)' } | select BaseName,Fullname,Name,Extension
-        
-        if(@($viewPathsInParentFolder).Count -eq 1) {
-            return $viewPathsInParentFolder[0]
-        }
-        
-        if(@($viewPathsInParentFolder).Count -gt 1) {
-            return $viewPathsInParentFolder[0]
+    else { #view not found in subfolder, now about to look in parent folder $LeslieAppBasePath\Views\ non recursively
+        $viewPathsInParentFolder = Get-ViewFilesInFolder "$LeslieAppBasePath\Views\" $fileNameToBeFound
+               
+        if($viewPathsInParentFolder.Count -gt 0) {
+            return $viewPathsInParentFolder[0];
         }
     }
 }
 
-$ViewLoader | Add-Member -PassThru -MemberType ScriptMethod -name GetView -Value {
+function Get-ViewFilesInFolder {
 param(
-[string]$ViewName
+    [string]$folderPath, 
+    [string]$fileName
 )
-    $ViewFileInfoList = $ViewLoader.FindView($ViewName) 
-    return (. $ViewFileInfoList[0].Fullname)
+    return (
+        (Get-ChildItem -Path $folderPath -Filter $fileName -ErrorAction SilentlyContinue -Force ) | 
+        where-object { $_.Name -match '(\.html$|\.ps1$)' } | 
+        select BaseName, Fullname, Name, Extension
+    )
 }
 
 function Get-View {
@@ -43,7 +46,7 @@ param(
     [hashtable]$ViewData = $null
 ) 
 
-    [array]$ViewFileInfoList = $ViewLoader.FindView($ViewName) 
+    [array]$ViewFileInfoList = Find-View $ViewName 
     
     if (@($ViewFileInfoList).Count -eq 0) {
         return "No matching view called `'$ViewName`' found in folders \Views\$invokedControllerName\ or \Views\"
@@ -65,3 +68,6 @@ param(
         }
     }
 }
+
+#Export-ModuleMember -Function 'Get-View'
+#Export-ModuleMember -Function 'Load-Controllers'

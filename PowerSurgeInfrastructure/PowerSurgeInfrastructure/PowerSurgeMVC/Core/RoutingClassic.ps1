@@ -1,11 +1,42 @@
 ﻿$invokedControllerName = "";
 $invokedActionName = "";
 
-. $PSScriptRoot\Loaders.ps1
-. $PSScriptRoot\URL.ps1
-Import-Module $PSScriptRoot\Controllers.psm1
 
- $controllerFileInfoList = Import-Controllers #if the file contains "*Controller.ps1" in the controllers directory, it's file information will be returned from ImportControllers()
+. $LeslieAppBasePath\core\URL.ps1
+. $LeslieAppBasePath\core\Loaders.ps1
+
+
+function Route-Request {
+param(
+    [string]$IncomingURL
+)
+    
+    if ($IncomingURL -ne '/'){
+        [object[]]$IncomingURLParts =  TrimFirstAndLastSlashesOnURL $IncomingURL;
+    
+        if($IncomingURLParts.count -ge 1) {
+            
+            #uncomment the three lines below to make the global template work.
+            if($appConfig.useGlobalView) {
+                
+                $returnedView = $ControllerDispatcher.Invoke($IncomingURLParts) #invoking the controller will inevitably return a view..
+        
+                $GloablViewHashTable = @{'ControllerResult' = $returnedView} #set the view content to an item in a hash table...
+                
+                Get-View "global" -ViewData $GloablViewHashTable #inject the view returned by the controller into the global view...
+            }
+            else {
+                $ControllerDispatcher.Invoke($IncomingURLParts)#i.e we want to manage all the html from the controllers!
+            }
+
+        }
+    }
+    else {
+         return $HomeController.Index()
+    }
+}
+
+ $controllerFileInfoList = Load-Controllers #if the file contains "*Controller.ps1" in the controllers directory, it's file information will be returned from ImportControllers()
  foreach ($controllerFile in $controllerFileInfoList) {
      .  $controllerFile.FullName                                #figure out the name of each controller file, and then invoke it so we can see the variables in the file...
 
@@ -14,33 +45,8 @@ Import-Module $PSScriptRoot\Controllers.psm1
      $ControllerCollection.Add($URLFriendlyControllerName,(Get-Variable $controllerFile.BaseName).Value) #.. and add it into our controller lookup table...
 }
 
-
-function Route-Request {
-param([string]$IncomingURL)
-
-    if ($IncomingURL -ne '/'){
-        [object[]]$IncomingURLParts =  TrimFirstAndLastSlashesOnURL $IncomingURL;
-   
-        if($IncomingURLParts.count -ge 1) {
-             
-            if($appConfig.useGlobalView) {
-                $returnedView = Invoke-Controller $IncomingURLParts #invoking the controller will inevitably return a view..
-                $GloablViewHashTable = @{'ControllerResult' = $returnedView} #set the view content to an item in a hash table...
-                Get-View "global" -ViewData $GloablViewHashTable #inject the view returned by the controller into the global view...
-            }
-            else {
-                Invoke-Controller $IncomingURLParts #i.e we want to manage all the html from the controllers!
-            }
-
-        }
-    }
-    else {
-	
-         return $HomeController.Index();
-    }
-}
-
-function Invoke-Controller {
+$ControllerDispatcher = New-Object -TypeName PSObject
+$ControllerDispatcher | Add-Member -MemberType ScriptMethod -Name "Invoke" -Value { 
 param ($explodedURLArray)
 
      [int]$arrayLength = $explodedURLArray.Count
@@ -67,3 +73,5 @@ param ($explodedURLArray)
         default { "Error: could not match method"; break;}
     }
 }
+
+

@@ -1,3 +1,6 @@
+# validURLChars is the list of allowable of characters in the URL... 
+[regex]$private:validURLChars  = '^[a-z0-9~%.:_\-]+$';
+
 function TrimFirstAndLastSlashesOnURL {
 param(
     [Parameter(Mandatory=$true)]
@@ -28,5 +31,5 @@ param(
 		throw "Your URL is fucked."
 	}
 	#>
-	return ($inputURL -match $Script:validURLChars)
+	return ($inputURL -match $validURLChars)
 }

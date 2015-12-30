@@ -5,8 +5,8 @@ $BlogController | Add-Member -MemberType NoteProperty -Name "Steve" -Value "Rath
 $BlogController | Add-Member -MemberType ScriptMethod -Name "Index" -Value { 
     #if($session['loggedin'] -eq $true) {
 	
-	$header = $ViewLoader.GetView("header")
-	$menu = $ViewLoader.GetView("menu")
+	$header = Get-View "header"
+	$menu = Get-View "menu"
 
     if(Authorized "Administrator", "Super User") {
 		$posts = $blogRepository.Get3MostRecentPosts();
@@ -23,7 +23,7 @@ $BlogController | Add-Member -MemberType ScriptMethod -Name "Index" -Value {
 	else {
 		$response = "<div id=""content"">Only Administrators and Super Users can view the blog section of this site.</div>"
 	}
-	$footer = $ViewLoader.GetView("footer")
+	$footer = Get-View "footer"
 	return $header + $menu + $response + $footer;
 }
 
@@ -31,8 +31,8 @@ $BlogController | Add-Member -MemberType ScriptMethod -Name "Post" -Value {
 param(
 	[int]$postID = 0
 )
-	$header = $ViewLoader.GetView("header")
-	$menu = $ViewLoader.GetView("menu")
+	$header = Get-View "header"
+	$menu = Get-View "menu"
 
 	if(Authorized "Administrator", "Super User") {
 		$post = $blogRepository.GetPost($postID);
@@ -49,7 +49,7 @@ param(
 		$response = "<div id=""content"">Only Administrators and Super Users can view the blog section of this site.</div>"
 	}
 
-	$footer = $ViewLoader.GetView("footer")
+	$footer = Get-View "footer"
     return $header + $menu + $response + $footer;
 } 
 

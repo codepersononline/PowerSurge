@@ -1,14 +1,11 @@
-$appconfig.UseGlobalView = $false;
-
 $SamplesController = New-Object –TypeName PSObject;
 
 $SamplesController | Add-Member -MemberType ScriptMethod -Name "Index" -Value {
 	return "Samples Controller Index"
-
 }
 
 $SamplesController | Add-Member -MemberType ScriptMethod -Name "Map" -Value {
-   get-View
+   Get-View
 }
 
 $SamplesController | Add-Member -MemberType ScriptMethod -Name "GeoJSON" -Value {
@@ -39,9 +36,6 @@ $SamplesController | Add-Member -MemberType ScriptMethod -Name "GeoJSON" -Value 
                 "properties": {"prop0": "Steve"}
             }
 "@
-
-         
-
 
     return @"
       { "type": "FeatureCollection",

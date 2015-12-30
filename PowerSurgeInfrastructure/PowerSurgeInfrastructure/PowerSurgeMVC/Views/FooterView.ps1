@@ -2,7 +2,7 @@
 </div>
 <div id="footer">
 Copyright Steve Rathbone $([system.datetime]::Now.Year).
-$($ViewLoader.GetView("extrafooter"))
+$( Get-View "extrafooter")
 </div>
 		</body>
 	</html>
