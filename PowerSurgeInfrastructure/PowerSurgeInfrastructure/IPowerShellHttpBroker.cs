@@ -12,6 +12,6 @@ namespace PowerSurgeInfrastructure
     interface IPowerShellHttpBroker
     {
         void initializeEnvironment(HttpContext httpcntxt);
-        object InvokePowerShell(HttpContext context);
+        object InvokePowerShell();
     }
 }

@@ -1,0 +1,38 @@
+﻿body {
+   font-family: sans-serif;
+    background-color: #A7A37E;
+}
+#login{
+text-align:right;
+}
+
+#page {
+    width: 960px;
+	height:100%;
+background-color:#E6E2AF;
+}
+#menu {
+list-style-type: none;
+}
+	
+#nav{
+background-color:#E6E2AF;
+float:left;
+width:300px;
+
+}
+
+#content {
+float:right;
+    width: 660px;
+	height:100%;
+    background-color: #EFECCA;
+	text-indent:20px;
+}
+#footer {
+padding-top:20px;
+padding-bottom:20px;
+text-align:center;
+width:960px;
+
+}

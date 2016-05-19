@@ -3,6 +3,7 @@ using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.Web;
 using System.Collections;
+using System.Web.Services.Description;
 
 namespace PowerSurgeInfrastructure
 {
@@ -11,60 +12,69 @@ namespace PowerSurgeInfrastructure
         private Runspace PowersurgeRunspace { get; set; }
         private Pipeline PowersurgePipeline { get; set; }
         private string FPOfScriptToExecute { get; set; }        //File Path of powershell script to execute. 
-        private bool PowershellInitialized { get; set; }
-        private PowerShell pShell;
-        public SimplePowerShellHttpBroker(string psScriptPath) {
-            pShell = PowerShell.Create();
+        private bool powershellInitialized { get; set; }
+        
+        public SimplePowerShellHttpBroker(string psScriptPath)
+        {
+            
             PowersurgeRunspace = RunspaceFactory.CreateRunspace(InitialSessionState.CreateDefault2());
-            pShell.Runspace = PowersurgeRunspace;
             FPOfScriptToExecute = psScriptPath;
         }
 
-        public void initializeEnvironment(HttpContext httpcntxt) {
-            pShell.Runspace.Open();
-            pShell.Runspace.SessionStateProxy.SetVariable("request", httpcntxt.Request);
-            pShell.Runspace.SessionStateProxy.SetVariable("response", httpcntxt.Response);
-            pShell.Runspace.SessionStateProxy.SetVariable("Session", HttpContext.Current.Session);
-            PowershellInitialized = true;
+        public void initializeEnvironment(HttpContext httpcntxt)
+        {
+            PowersurgeRunspace.Open();
+            PowersurgeRunspace.SessionStateProxy.SetVariable("request", httpcntxt.Request); // here we are passing in the whole proper asp.net request object into the powershell runspace as '$request'. this hold post data url data and everything else.
+            PowersurgeRunspace.SessionStateProxy.SetVariable("response", httpcntxt.Response); // here we are passing in the whole proper asp.net response object into the powershell runspace as '$response'. 
+            PowersurgeRunspace.SessionStateProxy.SetVariable("AppDomainPath", HttpRuntime.AppDomainAppPath);
+            PowersurgeRunspace.SessionStateProxy.SetVariable("Session", HttpContext.Current.Session);
+            powershellInitialized =  true;
         }
 
-        public object InvokePowerShell(HttpContext httpcntxt) {
+        public object InvokePowerShell()
+        {
             StringBuilder nonTerminatingErrors = new StringBuilder();
             StringBuilder HTMLOutput = new StringBuilder();
 
-            if (PowershellInitialized) { 
-                pShell.Runspace.CreatePipeline();
+            if (powershellInitialized)
+            {
+                PowersurgePipeline = PowersurgeRunspace.CreatePipeline();
+                PowersurgePipeline.Commands.AddScript("Set-ExecutionPolicy -Scope Process -ExecutionPolicy Unrestricted"); //we need this to give the ASP.NET account script execution priveleges... do we really need this for every request???
 
-                pShell.AddScript("Set-ExecutionPolicy -Scope Process -ExecutionPolicy Unrestricted"); //we need this to give the ASP.NET account script execution priveleges... do we really need this for every request???
-                pShell.AddScript(". " + FPOfScriptToExecute);
-                pShell.Invoke();
-                pShell.AddCommand("Init-PowerSurgeEnvironment");
-                pShell.AddParameter("request", httpcntxt.Request);
-                pShell.AddParameter("response", httpcntxt.Response);
-                pShell.AddParameter("AppDomainPath", HttpRuntime.AppDomainAppPath);
+                PowersurgePipeline.Commands.AddScript(". " + FPOfScriptToExecute);                                    //add the LeslieMVC core to be executed first..
+                PowersurgePipeline.Commands.AddScript("Incoming-Request");            //call the Incoming-Request function to route and render the request. Please note that the $request variable in setupLeslieMVCRunspace() is passing in the rawURL value behind the scenes!. see the Incoming-Request function for more details.
 
                 try {
-                    var results = pShell.Invoke();
+                    var results = PowersurgePipeline.Invoke();
 
-                    foreach (PSObject obj in results) {
-                        //join all the results from PowerSurgeMVC, notice how each result is not being cast to string...
-                        if (obj.ImmediateBaseObject.GetType().ToString() == "System.String") {
+                    foreach (PSObject obj in results)
+                    {
+                        //join all the results from Leslie MVC, notice how each result is not being cast to string...
+
+                        if (obj.ImmediateBaseObject.GetType().ToString() == "System.String")
+                        {
+                            //HTMLOutput.Append("String detected");
                             HTMLOutput.Append((string)obj.ImmediateBaseObject);
                         }
-                        if (obj.ImmediateBaseObject.GetType().ToString() == "System.Int32") {
+                        if (obj.ImmediateBaseObject.GetType().ToString() == "System.Int32")
+                        {
+                            //HTMLOutput.Append("int detected");
                             HTMLOutput.Append((int)obj.ImmediateBaseObject);
                         }
                     }
                     
-                    var errorArray = (ArrayList) pShell.Runspace.SessionStateProxy.GetVariable("error");
+                    var errorArray = (ArrayList)PowersurgeRunspace.SessionStateProxy.GetVariable("error");
                     errorArray.Reverse();
 
-                    foreach (ErrorRecord error in errorArray) {
+
+                    foreach (ErrorRecord error in errorArray)
+                    {
                         nonTerminatingErrors.Append("<b>Error:</b> " + error.Exception.Message);
                         nonTerminatingErrors.Append("</br>");
                         string[] stArray = error.ScriptStackTrace.Split('\n'); // need to do this so that we can 'html encode' the stack trace string for '<scriptblock>' tags...
 
-                        foreach (string stLine in stArray) { //for all the lines in the stacktrace...
+                        foreach (string stLine in stArray) //for all the lines in the stacktrace...
+                        {
                             string encodedLine = "&emsp;" + HttpUtility.HtmlEncode(stLine) + "</br>"; //once the line has been safely converted to text, we need to append on a proper </br> tag so that the next line in the stacktrace actually jumps to the next line below...
                             nonTerminatingErrors.Append(encodedLine); //add it onto the buffered output string...
                         }
@@ -75,7 +85,8 @@ namespace PowerSurgeInfrastructure
                     PowersurgeRunspace.Close();
                     return nonTerminatingErrors.ToString() + HTMLOutput.ToString();
                 }
-                catch (RuntimeException runtimeException) {
+                catch (RuntimeException runtimeException)
+                {
                     string template =
                         "<!DOCTYPE html>" +
                         "<html>" +
@@ -103,11 +114,12 @@ namespace PowerSurgeInfrastructure
                     return template;
                 }
             }
-            else {
+            else
+            {
                 throw new System.Exception(
                     "Please call SimplePowerShellHttpBroker.initializeEnvironment before invoking the script.");
             }
-
+           
         }
     }
 }
