@@ -3,9 +3,10 @@
 )
 
 function Load-Controllers {
-    param(
-        $webAppPath = $script:webAppPath 
-    )
+param(
+    $webAppPath = $script:webAppPath 
+)
+
     return Get-ChildItem $webAppPath\Controllers -Filter *Controller.ps1 -ErrorAction SilentlyContinue -Force | 
 		select BaseName, Fullname, Name
 }
@@ -13,12 +14,12 @@ function Load-Controllers {
 function Build-ControllerLookupTable {
     [hashtable]$Controllers = @{}; 
     
-    $controllerFileInfoList = Load-Controllers; #if the file contains "*Controller.ps1" in the controllers directory, it's file information will be returned from ImportControllers()
+    $controllerFileInfoList = Load-Controllers;                    #if the file contains "*Controller.ps1" in the controllers directory, it's file information will be returned from ImportControllers()
 
     foreach ($controllerFile in $controllerFileInfoList) {
-        .  $controllerFile.FullName;                             #figure out the name of each controller file, and then invoke it so we can see the variables in the file...
+        .  $controllerFile.FullName;                               #figure out the name of each controller file, and then invoke it so we can see the variables in the file...
 
-        $ControllerBaseFileName = $controllerFile.BaseName ;        #possibly uneccesary, only left for clarity. (gets the string name of the filename that contains the controller variables that we need...) controller filenames and variable names match remember ;) 
+        $ControllerBaseFileName = $controllerFile.BaseName;        #possibly uneccesary, only left for clarity. (gets the string name of the filename that contains the controller variables that we need...) controller filenames and variable names match remember ;) 
         $URLFriendlyControllerName = $ControllerBaseFileName.Remove($ControllerBaseFileName.Length - 10) #strip off the "Controller" part of the string...
         $Controllers.Add($URLFriendlyControllerName,(Get-Variable $controllerFile.BaseName).Value) #.. and add it into our controller lookup table...
     }

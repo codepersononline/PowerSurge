@@ -15,8 +15,8 @@ Import-Module $webAppPath\core\HttpUtility.psm1;
 
 function Route-Request {
 param(
-    [string]$requestedURL,
-    [bool]$isAJAXRequest
+    [string] $requestedURL,
+    [bool] $isAJAXRequest
 )
     Debug 'Route-Request called'
 

@@ -1,7 +1,7 @@
 ﻿param(
     $webAppPath
-
 )
+
 Import-Module $webAppPath\core\URL.psm1
 Import-Module $webAppPath\core\Loaders.psm1 -ArgumentList $webAppPath
 #Import-Module $webAppPath\core\securityutilityfunctions.psm1;
@@ -32,9 +32,9 @@ param(
 )
     $methodMatches = 0;
 
-    $methodMatches = $Controller | 
-                    Get-Member | 
-                    Where-Object -Property Name -Match $ScriptMethod |
+    $methodMatches = $Controller| 
+                        Get-Member | 
+                        Where-Object -Property Name -Match $ScriptMethod |
                     Where-Object -Property MemberType -Match 'ScriptMethod';
 
     if($methodMatches.Count -eq 1) {return $true}
@@ -47,8 +47,7 @@ param(
     [string] $requestedURL,
     [bool] $isAJAXRequest
 )
- 
-	   
+
     $requestedURL = $requestedURL.Remove(0,1);
     $controllerFileInfoList = Load-Controllers; #if the file contains "*Controller.ps1" in the controllers directory, it's file information will be returned from ImportControllers()
 
@@ -57,7 +56,9 @@ param(
     }
     
 	. "$webAppPath\Routes.ps1"
-	
+
+	    Import-Module  $webAppPath\core\ViewLoader.psm1 -ArgumentList @($webAppPath,$invokedControllerName,$invokedActionName)
+    
 	Get-Routes | % {
         if($requestedURL -match $_[0]) {
             $currentRoute = $_;

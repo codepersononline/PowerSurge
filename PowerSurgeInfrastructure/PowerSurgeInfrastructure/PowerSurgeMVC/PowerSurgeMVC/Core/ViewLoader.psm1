@@ -44,7 +44,7 @@ param(
     )
 }
 
-function Get-View {
+function Global:Get-View {
 param(
     [string]$ViewName = $script:invokedActionName,
     [string]$websitePath = $script:websitePath,

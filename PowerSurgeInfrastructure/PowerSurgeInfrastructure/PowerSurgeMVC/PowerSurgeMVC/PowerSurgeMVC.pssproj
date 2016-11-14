@@ -51,9 +51,6 @@
   <ItemGroup>
     <Compile Include="App.psm1" />
     <Compile Include="config.psm1" />
-    <Compile Include="Controllers\#BlogController.ps1#" />
-    <Compile Include="Controllers\#MockController.ps1#" />
-    <Compile Include="Controllers\#TempController.ps1#" />
     <Compile Include="Controllers\AngularController.ps1" />
     <Compile Include="Controllers\BlogController.ps1" />
     <Compile Include="Controllers\DemoController.ps1" />
@@ -61,6 +58,7 @@
     <Compile Include="Controllers\MockController.ps1" />
     <Compile Include="Controllers\MockController.Tests.ps1" />
     <Compile Include="Controllers\MonitoringController.ps1" />
+    <Compile Include="Controllers\PerformanceController.ps1" />
     <Compile Include="Controllers\SamplesController.ps1" />
     <Compile Include="Controllers\TempController.ps1" />
     <Compile Include="Controllers\TimeController.ps1" />
@@ -110,6 +108,9 @@
     <Compile Include="Views\Mock\GetUserView.html" />
     <Compile Include="Views\Mock\SimpleFormView.html" />
     <Compile Include="Views\Samples\mapView.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="static\css\debugging.css" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

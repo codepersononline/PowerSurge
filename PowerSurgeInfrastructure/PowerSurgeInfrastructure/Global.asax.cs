@@ -25,6 +25,11 @@ namespace PowerSurgeInfrastructure
 
         }
 
+        protected void Application_EndRequest(object sender, EventArgs e)
+        {
+            
+        }
+
         protected void Application_AuthenticateRequest(object sender, EventArgs e)
         {
 
@@ -45,4 +50,5 @@ namespace PowerSurgeInfrastructure
 
         }
     }
+        
 }

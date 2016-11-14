@@ -1,4 +1,4 @@
-﻿function sayHello {
+﻿function GLOBAL:sayHello {
     "hello steve"
 }
 New-Alias New-Controller New-Module
@@ -8,16 +8,16 @@ param()
     function Index {
     param(
         [Parameter(Mandatory=$false)]
-        $CategoryID,
+        [int] $CategoryID,
         [Parameter(Mandatory=$false)]
-        $BookID
+        [int] $BookID
     )
 
         return "Index function called steve with Category $CategoryID and BookID $BookID"
     }
 
     function Home {
-        return sayHello;
+        return Get-View;
     }
 
     function ShootArrow {
@@ -25,7 +25,7 @@ param()
         [Parameter(Mandatory=$false)]$target,
         [Parameter(Mandatory=$false)]$distance
     ) 
-        return "ShootArrow called, target is: $target, distance is: $distance";
+		return "ShootArrow called, target is: $target, distance is: $distance";
     }
     Export-ModuleMember -Function ('Index','Home','ShootArrow')
 } -AsCustomObject
