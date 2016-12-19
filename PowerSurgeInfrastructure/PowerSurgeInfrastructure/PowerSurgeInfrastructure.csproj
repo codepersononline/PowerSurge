@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\publishtoservercore.pubxml" />
     <None Include="Properties\PublishProfiles\server2012.pubxml" />
     <None Include="Properties\PublishProfiles\testpublish.pubxml" />
     <None Include="Web.Debug.config">

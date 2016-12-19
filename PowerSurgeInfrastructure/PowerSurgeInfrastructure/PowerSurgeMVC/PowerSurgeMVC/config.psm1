@@ -9,7 +9,7 @@ $steve = 31;
 $global:AppConfig = @{
     'ApplicationName' = "Steve's MVC App!";
     'Logging' = $false;
-    'Debugging' = $true;
+    'Debugging' = $false;
     'DBConnectionString' = 'Data Source=.\SQLEXPRESS;Integrated Security=SSPI;Initial Catalog=LeslieMVCBlog';
     'UseGlobalView' = $false;
     'defaultRoute' ='/Mock/Index'

@@ -1,13 +1,19 @@
 #Used for Performance Testing Only!
 
-$PerformanceController = New-Controller 'PerformanceController' {
-param()
+$PerformanceController = New-Module 'PerformanceController' {
+Param()
   
-    function FastRequest {
-        return 'FastRequest function called at' + [DateTime]::Now.ToString();
+    Function FastRequest {
+		return '<!DOCTYPE html><html><head></head><body>FastRequest function called at' + [DateTime]::Now.ToString() + '</body></html>'
+    }
+	
+	Function FastRequestWithCacheDelay {
+		
+		$global:Response.Cache.SetLastModified([DateTime]::Now.AddDays(-1))
+        return '<!DOCTYPE html><html><head></head><body>FastRequest function called at' + [DateTime]::Now.ToString() + '</body></html>'
     }
 
-    function SlowRequest {
+    Function SlowRequest {
     param(
         [Parameter(Mandatory=$false)]
         [int] $delay
@@ -17,4 +23,4 @@ param()
         return $result
     }
     Export-ModuleMember -Function ('FastRequest','SlowRequest')
-} -AsCustomObject
+} -AsCustomObject;

@@ -1,8 +1,8 @@
 ﻿function GLOBAL:sayHello {
     "hello steve"
 }
-New-Alias New-Controller New-Module
-$DemoController = New-Controller 'DemoController' {
+
+$DemoController = New-Module 'DemoController' {
 param()
   
     function Index {
@@ -20,14 +20,14 @@ param()
         return Get-View;
     }
 
-    function ShootArrow {
+    function TestRoute {
     param(
-        [Parameter(Mandatory=$false)]$target,
-        [Parameter(Mandatory=$false)]$distance
+        [Parameter(Mandatory=$false)]$a,
+        [Parameter(Mandatory=$false)]$b
     ) 
-		return "ShootArrow called, target is: $target, distance is: $distance";
+		return "TestRoute called, param a is: $a, param b is: $b";
     }
-    Export-ModuleMember -Function ('Index','Home','ShootArrow')
+    Export-ModuleMember -Function ('Index','Home','ShootArrow', 'TestRoute')
 } -AsCustomObject
 
    

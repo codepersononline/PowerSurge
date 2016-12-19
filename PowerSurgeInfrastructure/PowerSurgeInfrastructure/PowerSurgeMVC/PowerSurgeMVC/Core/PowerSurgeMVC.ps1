@@ -17,14 +17,19 @@ param(
 	[string] $AppDomainPath
 )   
 	
+	Import-Module $PowerSurgeAppPath\config.psm1;
+	$global:request = $request;
+	$global:response = $response;
+
 	Import-Module $PowerSurgeAppPath\core\Debugging.psm1
+	
 	Import-Module $PowerSurgeAppPath\core\HttpUtility.psm1;
 	Import-Module $PowerSurgeAppPath\core\HttpMethods.psm1;
 	#Import-Module $PowerSurgeAppPath\core\RoutingClassic.psm1 -ArgumentList $PowerSurgeAppPath; #routingclassic
 	Import-Module $PowerSurgeAppPath\core\Routing.psm1 -ArgumentList $PowerSurgeAppPath;
 
 	Import-Module $PowerSurgeAppPath\App.psm1 -ArgumentList $PowerSurgeAppPath
-	Import-Module $PowerSurgeAppPath\config.psm1;
+	
 
 	App\Initialize-App;
 	Initialize-Logging;
@@ -33,16 +38,22 @@ param(
 		-Value $Request.Url.GetLeftPart([System.UriPartial]::Authority) `
 		-Option Constant -Force;
 
-	Debug "App initialised with base url $baseURL";
-	Debug "App initialised with PowerSurgeAppPath: $PowerSurgeAppPath";
+	Debug "Base URL: $baseURL";
+	Debug "PowerSurgeAppPath: $PowerSurgeAppPath";
 	#$Global:allvars = Get-Variable;
 	#Get-CurrentListOfFunctions;
 	$ajaxResult = HttpMethods\Request-IsAJAX $request.Headers["X-Requested-With"];
-
-	#[string[]]$renderedResponse = Route-Request $request.rawURL $ajaxResult; #routingclassic
-	[string[]]$renderedResponse = Route-Request $request.rawURL $ajaxresult
 	
-	return $renderedResponse  + $(Get-DebuggingPage)
+	#[string[]]$renderedResponse = Route-Request $request.rawURL $ajaxResult; #routingclassic
+	[string[]]$renderedResponse = Route-Request $request.rawURL $ajaxresult #-Routes (Get-Routes)
+	
+	if($global:AppConfig.debugging -eq $true) {
+		return $renderedResponse  + $(Get-DebuggingPage);
+	}
+	else {
+		return $renderedResponse;
+	}
+	
 }
 
 function dumpVariablesToHTMLTable {

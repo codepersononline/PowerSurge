@@ -36,6 +36,7 @@
     <Folder Include="Resources\" />
     <Folder Include="Resources\dll\" />
     <Folder Include="Resources\Logging\" />
+    <Folder Include="Resources\ErrorPages\" />
     <Folder Include="static\" />
     <Folder Include="static\css\" />
     <Folder Include="static\files\" />
@@ -53,6 +54,8 @@
     <Compile Include="config.psm1" />
     <Compile Include="Controllers\AngularController.ps1" />
     <Compile Include="Controllers\BlogController.ps1" />
+    <Compile Include="Controllers\BusController.ps1" />
+    <Compile Include="Controllers\CustomHeaderController.ps1" />
     <Compile Include="Controllers\DemoController.ps1" />
     <Compile Include="Controllers\HomeController.ps1old" />
     <Compile Include="Controllers\MockController.ps1" />
@@ -69,15 +72,22 @@
     <Compile Include="Core\HttpUtility.psm1" />
     <Compile Include="Core\init.ps1" />
     <Compile Include="Core\Loaders.psm1" />
+    <Compile Include="Core\Loaders.tests.ps1" />
     <Compile Include="Core\log4netConfig\app.config" />
     <Compile Include="Core\Logging.ps1" />
     <Compile Include="Core\PowerSurgeMVC.ps1" />
+    <Compile Include="Core\PowerSurgeMVC.tests.ps1" />
     <Compile Include="Core\rendering\render-table.ps1" />
     <Compile Include="Core\Routing.psm1" />
+    <Compile Include="Core\Routing.Tests.ps1" />
     <Compile Include="Core\RoutingClassic.psm1" />
+    <Compile Include="Core\RoutingClassic.tests.ps1" />
     <Compile Include="Core\securityutilityfunctions.psm1" />
+    <Compile Include="Core\securityutilityfunctions.tests.ps1" />
     <Compile Include="Core\URL.psm1" />
+    <Compile Include="Core\URL.tests.ps1" />
     <Compile Include="Core\ViewHelperFunctions.ps1" />
+    <Compile Include="Core\ViewHelperFunctions.tests.ps1" />
     <Compile Include="Core\ViewLoader.psm1" />
     <Compile Include="Core\ViewLoader.Tests.ps1" />
     <Compile Include="Core\webserver.ps1" />
@@ -110,7 +120,10 @@
     <Compile Include="Views\Samples\mapView.html" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\ErrorPages\403.html" />
+    <Content Include="Resources\ErrorPages\404.html" />
     <Content Include="static\css\debugging.css" />
+    <Content Include="static\scripts\debugging.js" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

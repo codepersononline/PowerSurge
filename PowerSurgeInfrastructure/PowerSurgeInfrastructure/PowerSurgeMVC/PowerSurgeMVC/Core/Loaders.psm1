@@ -7,8 +7,13 @@ param(
     $webAppPath = $script:webAppPath 
 )
 
-    return Get-ChildItem $webAppPath\Controllers -Filter *Controller.ps1 -ErrorAction SilentlyContinue -Force | 
-		select BaseName, Fullname, Name
+    return Get-ChildItem $webAppPath\Controllers `
+		-Filter *Controller.ps1 `
+		-ErrorAction SilentlyContinue `
+		-Force | 
+			Select-Object BaseName, 
+						  Fullname, 
+						  Name
 }
 
 function Build-ControllerLookupTable {
