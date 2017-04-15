@@ -16,7 +16,7 @@ param(
 	[System.Web.HttpResponse] $response,
 	[string] $AppDomainPath
 )   
-	
+
 	Import-Module $PowerSurgeAppPath\config.psm1;
 	$global:request = $request;
 	$global:response = $response;

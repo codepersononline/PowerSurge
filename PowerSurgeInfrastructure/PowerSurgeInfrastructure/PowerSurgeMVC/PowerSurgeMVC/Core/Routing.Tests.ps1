@@ -3,34 +3,9 @@
 Import-Module $PowerSurgeMVCPath\Core\Routing.psm1 -ArgumentList $PowerSurgeMVCPath -DisableNameChecking;
 Import-Module $PowerSurgeMVCPath\Core\Loaders.psm1 -ArgumentList $PowerSurgeMVCPath -DisableNameChecking;
 
-. $PowerSurgeMVCPath\routes.ps1
-#Get-Routes
-
 Describe 'Routing' {
-	Context 'Exists' {
-		<#$routes = @(
-					@('^insertcustomheader/([a-z].*)/([a-z].*)', $CustomHeaderController.'Insert-CustomHeader'),
-					@('([0-9])/([a-z])$', $DemoController.Index),
-					@('Home', $DemoController.Home),
-					@('Index/([0-9]{3})/([0-9]{2})', $DemoController.Index),
-					@('Shoot/([0-9])/([0-9])',$DemoController.ShootArrow),
-					@('Performance/FastRequest',$PerformanceController.FastRequest),
-					@('Performance/SlowRequest/([0-9]{2})',$PerformanceController.SlowRequest)
-			)
-		#>
-		It 'Inserts a custom header' {
-			Route-Request -requestedURL '/insertcustomheader/steve/rathbone' -isAJAXRequest $false
-			
-			$controllerFileInfoList = Load-Controllers;
-			foreach ($controllerFile in $controllerFileInfoList) {
-				.  $controllerFile.FullName;
-			}
-
-			
+	Context 'When requesting a webpage with a request string' {
 		
-			Route-Request -requestedURL '/Performance/FastRequest' -isAJAXRequest $false -Routes $routes
-			#$TRUE | Should Be $true 
-		}
 		It 'Finds FastRequest' { 
 			$res =	Route-Request -requestedURL '/Performance/FastRequest' -isAJAXRequest $false 
 			$res -match	'FastRequest function called at' | should be $true

@@ -1,14 +1,14 @@
-$SamplesController = New-Object –TypeName PSObject;
+$SamplesController = New-Module -Name 'SamplesController' {
 
-$SamplesController | Add-Member -MemberType ScriptMethod -Name "Index" -Value {
-	return "Samples Controller Index"
-}
+	function Index {
+	 "Samples Controller Index"
+	}
 
-$SamplesController | Add-Member -MemberType ScriptMethod -Name "Map" -Value {
-   Get-View
-}
+	function Map {
+		Get-View2 -ViewName 'Map' -ControllerName Samples
+	}
 
-$SamplesController | Add-Member -MemberType ScriptMethod -Name "GeoJSON" -Value {
+	Function GeoJSON {
     $locations = @(
         @{lat = '102.0'; lon ="-42.0"},
         @{lat = '30.0'; lon ="0.5"}
@@ -46,6 +46,14 @@ $SamplesController | Add-Member -MemberType ScriptMethod -Name "GeoJSON" -Value 
 "@
            
 }
+
+	Export-ModuleMember -Function *
+} -AsCustomObject
+
+
+
+
+
 
 
 

@@ -46,7 +46,9 @@ namespace PowerSurgeInfrastructure
                 try {
                     var results = pShell.Invoke();
 
-                    foreach (PSObject obj in results) {
+                   HttpResponse r = (HttpResponse) pShell.Runspace.SessionStateProxy.GetVariable("response");
+                    //HTMLOutput.Append("steve injection" + r.ContentType);
+                        foreach (PSObject obj in results) {
                         //join all the results from PowerSurgeMVC, notice how each result is not being cast to string...
                         if (obj.ImmediateBaseObject.GetType().ToString() == "System.String") {
                             HTMLOutput.Append((string)obj.ImmediateBaseObject);

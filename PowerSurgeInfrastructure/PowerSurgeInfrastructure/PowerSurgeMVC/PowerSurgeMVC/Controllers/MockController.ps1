@@ -1,8 +1,7 @@
 ﻿$MockController = New-Object –TypeName PSObject
 
 $MockController | Add-Member -PassThru -MemberType ScriptMethod Index -Value { 
-    $response = '<h1>Hello World from MockController Index function!</h1>'
-    return $response;
+	'<h1>Hello World from MockController Index function!</h1>';
 } 
 
 $MockController | Add-Member -PassThru -MemberType ScriptMethod GetUser -Value { 
@@ -42,7 +41,7 @@ $MockController | Add-Member -PassThru -MemberType ScriptMethod GetUser -Value {
 } 
 
 $MockController | Add-Member -PassThru -MemberType ScriptMethod SimpleForm -Value { 	
-	Get-View
+	Get-View -ViewData @{'steve' = 'rathbone'}
 }  
 
 #http://stackoverflow.com/questions/3441735/detect-ajax-call-asp-net
@@ -128,27 +127,20 @@ $MockController | Add-Member -PassThru -MemberType ScriptMethod LoginProcess -Va
 	return "Hi $($request.Form['firstname']), you are now logged in as $($session['userRole'])"; 
 }
 
-$MockController | Add-Member -PassThru -MemberType ScriptMethod Logout -Value {
+$MockController | Add-Member -PassThru -MemberType ScriptMethod -Name Logout -Value {
 	if($session['loggedin'] -eq $true) { $session['loggedin'] = $null; } #if the variable doesn't exist, create it and set it to false...
 	$session.Clear();
 	
 	return 'You have now been logged out.'; 
 }
 
-$MockController | Add-Member -PassThru -MemberType ScriptMethod Download -Value {
+$MockController | Add-Member -PassThru -MemberType ScriptMethod -Name Download -Value {
 param(
 	[string]$filename
 )	
-	#JavaScript_The_Good_Parts.pdf
-	#if(Authorized "Administrator", "Super User") {
-		$response.AddHeader('Content-Disposition', "attachment;filename=$filename");
-		$response.Charset = '';
-		$response.ContentType = 'application/pdf'
-		$response.TransmitFile("/LeslieMVC/static/files/$filename")
-	#}
-	#else {
-	#		$response.StatusCode = 401;
+	$filename = 'meme.jpg'
 
-	#}
-	return
+	$response.AddHeader('Content-Disposition', "attachment;filename=$filename");
+	$response.ContentType = 'image/jpeg'
+	$response.TransmitFile("$baseURL/PowerSurgeMVC/PowerSurgeMVC/static/files/$filename")
 }

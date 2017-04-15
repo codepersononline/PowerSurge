@@ -45,26 +45,24 @@
     <Folder Include="Views\" />
     <Folder Include="Views\Angular\" />
     <Folder Include="Views\home\" />
-    <Folder Include="Views\Mock\" />
+    <Folder Include="Views\Module\" />
     <Folder Include="Views\Global\" />
     <Folder Include="Views\Samples\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.psm1" />
     <Compile Include="config.psm1" />
+    <Compile Include="Controllers\ModuleController.ps1" />
     <Compile Include="Controllers\AngularController.ps1" />
     <Compile Include="Controllers\BlogController.ps1" />
     <Compile Include="Controllers\BusController.ps1" />
-    <Compile Include="Controllers\CustomHeaderController.ps1" />
-    <Compile Include="Controllers\DemoController.ps1" />
     <Compile Include="Controllers\HomeController.ps1old" />
     <Compile Include="Controllers\MockController.ps1" />
     <Compile Include="Controllers\MockController.Tests.ps1" />
     <Compile Include="Controllers\MonitoringController.ps1" />
     <Compile Include="Controllers\PerformanceController.ps1" />
+    <Compile Include="Controllers\PSObjectController.ps1" />
     <Compile Include="Controllers\SamplesController.ps1" />
-    <Compile Include="Controllers\TempController.ps1" />
-    <Compile Include="Controllers\TimeController.ps1" />
     <Compile Include="Core\config.ps1" />
     <Compile Include="Core\DB.ps1" />
     <Compile Include="Core\Debugging.psm1" />
@@ -115,8 +113,8 @@
     <Compile Include="Views\HeaderView.html" />
     <Compile Include="Views\MenuView.html" />
     <Compile Include="Views\MenuView.ps1" />
-    <Compile Include="Views\Mock\GetUserView.html" />
-    <Compile Include="Views\Mock\SimpleFormView.html" />
+    <Compile Include="Views\Module\GetUserView.html" />
+    <Compile Include="Views\Module\SimpleFormView.html" />
     <Compile Include="Views\Samples\mapView.html" />
   </ItemGroup>
   <ItemGroup>

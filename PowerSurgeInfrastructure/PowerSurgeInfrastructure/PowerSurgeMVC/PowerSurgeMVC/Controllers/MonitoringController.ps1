@@ -1,43 +1,36 @@
-﻿$MonitoringController = New-Object –TypeName PSObject
+﻿
+$MonitoringController = New-Module -Name 'MonitoringController' {
+param($response)
+	Function Index { 
+		'<!DOCTYPE html><html><head><link rel=""shortcut icon"" href=""//cdn.sstatic.net/stackoverflow/img/favicon.ico""/><meta charset=""utf-8""><title>Title of the document</title></head><body><h1>Hello World from MonitoringController Index function!</h1><body></html>';
+	} 
+	 
+	Function ProcessesHTML { 
+		 "<!DOCTYPE html><html><head></head>
+			<body><h1>Processes, in a table!</h1> 
+				$(Get-Process | Select-Object Name,Handles,VM,WS,PM,NPM,Path,Company,CPU | ConvertTo-Html)
+			<body></html>";
+	}
 
-$MonitoringController | Add-Member -PassThru -MemberType ScriptMethod Index -Value { 
-    $response = "<!DOCTYPE html><html><head><link rel=""shortcut icon"" href=""//cdn.sstatic.net/stackoverflow/img/favicon.ico""/><meta charset=""utf-8""><title>Title of the document</title></head><body><h1>Hello World from MonitoringController Index function!</h1><body></html>"
-    return $response;
-} 
+	Function ProcessesJSON {
+		Get-Process |
+			Select-Object Name, Handles, VM, WS, PM, NPM, Path, Company, CPU |
+			ConvertTo-JSON -Compress -ErrorAction SilentlyContinue;
+	}
+	
+	Function ServicesJSON  { 
+		$response.ContentType = 'application/json';
+		$response.AddHeader('Access-Control-Allow-Origin', '*') #enable CORS
 
-$MonitoringController | Add-Member -PassThru -MemberType ScriptMethod ProcessesHTML -Value { 
-    $response = "<!DOCTYPE html><html><head></head>
-                <body><h1>Processes, in a table!</h1>
-                $(get-process | select Name,Handles,VM,WS,PM,NPM,Path,Company,CPU | ConvertTo-Html)
-                <body></html>"
-    return $response;
-}
+		return (get-service | select Status, Name, DisplayName | ConvertTo-JSON -compress).ToString();
+	}
+	
+	Function ProcessesXML {	
+		$response.ContentType = "text/csv";
+		$response.AddHeader("content-disposition", "attachment;filename=test.csv");
+		$res =  Get-Process | Select-Object Name,Handles,VM,WS,PM,NPM,Path,Company,CPU | ConvertTo-Csv -NoTypeInformation  
+		$res | %{$_ + "`n"}
+	}
 
-$MonitoringController | Add-Member -PassThru -MemberType ScriptMethod ProcessesJSON -Value { 
-    
-    return get-process | select Name,Handles,VM,WS,PM,NPM,Path,Company,CPU | ConvertTo-JSON -compress -ErrorAction SilentlyContinue
-                
-   
-}
-
-$MonitoringController | Add-Member -PassThru -MemberType ScriptMethod ServicesJSON -Value { 
-    $Response.ContentType = "application/json";
-	$response.AddHeader("Access-Control-Allow-Origin", "*") #enable CORS
-    return (get-service | select Status, Name, DisplayName | ConvertTo-JSON -compress).ToString()
-              
-   
-}
-
-$MonitoringController | Add-Member -PassThru -MemberType ScriptMethod ProcessesXML -Value { 
-    $Response.ContentType = "text/csv";
-    $response.Charset = "";   
-    
-    $Response.AddHeader("content-disposition", "attachment;filename=test.csv");
-    $res =  get-process | select Name,Handles,VM,WS,PM,NPM,Path,Company,CPU | ConvertTo-Csv
-   # foreach ($row in $res){
-     #   $response.write($row)
-   # } 
-       
-    return $res.ToString()       
-   
-}
+	Export-ModuleMember -Function *;
+} -AsCustomObject -ArgumentList $global:response
