@@ -15,9 +15,9 @@ namespace PowerSurgeInfrastructure
             psBroker.initializeEnvironment(context);
             context.Response.ContentType = "text/html";
             return Task.Factory.StartNew(() => { context.Response.Write(psBroker.InvokePowerShell(context)); });
-             
+            
            
-           // context.Response.Write(DateTime.Now.ToString());
+           //context.Response.Write(DateTime.Now.ToString());
         }
     }
 }

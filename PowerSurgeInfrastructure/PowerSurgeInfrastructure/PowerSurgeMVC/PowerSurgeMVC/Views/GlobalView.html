@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 	<head>
 		<link rel="shortcut icon" href="//cdn.sstatic.net/stackoverflow/img/favicon.ico"/>
@@ -7,10 +7,10 @@
 	</head>
 
 	<body>
-	$(Get-View 'header'
-		Get-View 'menu'
-		$controllerResult
-		Get-View 'footer'
+	$(Render-PartialView -Viewname 'header'
+        Render-PartialView -Viewname 'menu'
+		$Content
+        Render-PartialView -Viewname 'footer'
 	)
 	</body>
 </html> 

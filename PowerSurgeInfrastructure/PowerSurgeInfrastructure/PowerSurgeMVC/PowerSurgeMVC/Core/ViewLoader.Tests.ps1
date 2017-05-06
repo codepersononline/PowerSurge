@@ -2,17 +2,7 @@ $PowerSurgeMVCPath = 'C:\Users\steve\Documents\GitHub\PowerSurge\PowerSurgeInfra
 cd $PowerSurgeMVCPath
 Import-Module "$PowerSurgeMVCPath\core\ViewLoader.psm1";
 
-Describe 'ViewLoader Get-ViewFilesInFolder' {
+Describe 'ViewLoader' {
 
-    It 'should pass' {
-        $results = Get-ViewFilesInFolder '' ''
-
-        $results | Should Be $true 
-    }
-
-    It 'should fail' {
-        $results = Get-ViewFilesInFolder '' ''
-
-        $results | Should Be $true 
-    }
+   
 }

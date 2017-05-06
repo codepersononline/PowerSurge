@@ -1,5 +1,0 @@
-$HomeController = New-Object –TypeName PSObject;
-$HomeController | Add-Member -PassThru -MemberType ScriptMethod Index -Value { 
-    $HTML = '<h1>Hello World from HomeController Index function!</h1>'
-    return $HTML;
-} 

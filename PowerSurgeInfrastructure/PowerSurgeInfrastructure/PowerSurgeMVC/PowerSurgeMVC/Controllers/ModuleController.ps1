@@ -1,4 +1,4 @@
-$ModuleController = New-Module -Name 'ModuleController' {
+$Controller = New-Module -Name 'ModuleController' {
 
 	function AboutMe {
 		'<html><title>About Me</title><body>
@@ -36,7 +36,17 @@ $ModuleController = New-Module -Name 'ModuleController' {
 	}
 
 	function SimpleForm {
-		Get-View 
+
+		Render-View 
+	}
+
+	function FireFoxProcess  {
+		Import-Module "$PSScriptRoot\..\Models\ProcessModel\ProcessModel.psm1"
+		
+		$data = Get-AllFireFoxProcesses | select ID, Name
+		#Get-AllFireFoxProcesses | select ID, Name |ConvertTo-Csv -NoTypeInformation
+
+		Render-View -Viewdata @{'processstuff'=$data}
 	}
 
 	Export-ModuleMember -Function *

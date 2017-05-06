@@ -23,7 +23,7 @@ function Get-DebuggingPage {
 		$finMessageStr = [string]::Concat($finMessageStr, 
 			'<p>', $message, '</p>');
 	}
-	$renderingTime = 'PowerSurge rendered in this page in: ' + (New-TimeSpan -Start $currentTime).TotalSeconds + ' Seconds'
+	$renderingTime = 'PowerSurge rendered in this page in: ' + (New-TimeSpan -Start $currentTime).TotalMilliseconds + ' Milliseconds'
 	return $dbgheader + $finMessageStr + $renderingTime + $dbgfooter 
 	
 }

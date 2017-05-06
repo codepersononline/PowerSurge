@@ -3,42 +3,28 @@
 )
 
 Import-Module $webAppPath\core\URL.psm1 -DisableNameChecking
-Import-Module $webAppPath\core\Loaders.psm1 -ArgumentList $webAppPath -DisableNameChecking
+Import-Module $webAppPath\core\ControllerLoader.psm1 -ArgumentList $webAppPath -DisableNameChecking
 #Import-Module $webAppPath\core\securityutilityfunctions.psm1;
 #Import-Module $webAppPath\core\HttpUtility.psm1;
 
 . $webAppPath\core\viewhelperfunctions.ps1;
 
-function Is-Controller {
-param(
-	$controller
-)
-	if($controller -is [PSCustomObject] ) {
-		return "valid"
-	} else {
-		return "invalid"
-	}
-}
-
 function Check-ControllerHasScriptMethodDefinition {
 param(
-	[Parameter(Mandatory=$true)]
-	[PSCustomObject]$Controller,
 	[Parameter(Mandatory=$true)]    
 	[string] $ScriptMethod,
 	[Parameter(Mandatory=$true)]
-	[string] $controllerPath
+	[string] $ControllerName
 )
-	$methodMatches = 0;
-
-	$methodMatches = $Controller| 
-						Get-Member | 
-						Where-Object -Property Name -Match $ScriptMethod |
-					Where-Object -Property MemberType -Match 'ScriptMethod';
+	New-Variable -Name methodMatches -Option Constant -Value (
+		Get-Member -InputObject $Controller | 
+			Where-Object -Property Name -eq $ScriptMethod |
+			Where-Object -Property MemberType -Match 'ScriptMethod'
+	)
 
 	if($methodMatches.Count -eq 1) {return $true}
-	if($methodMatches.Count -eq 0) {throw "Controller: $ControllerPath does not contain a definition for scriptmethod: $ScriptMethod"}
-	else {throw "Controller: $ControllerPath. has more than one definition for scriptmethod: $ScriptMethod"}
+	if($methodMatches.Count -eq 0) {throw "'$ControllerName' controller does not contain a function definition for '$ScriptMethod'"}
+	else {throw "'$ControllerName' controller has more than one definition for scriptmethod '$ScriptMethod'"}
 }
 
 function Route-Request {
@@ -47,45 +33,60 @@ param(
 	[bool] $isAJAXRequest,
 	$Routes #not used yet 19/12/2016
 )
+	New-Variable -Name trimmedURL -Value (Trim-FirstAndLastSlashesOnURL -rURL $requestedURL) -Option Constant;
 	
-	$requestedURL = Trim-FirstAndLastSlashesOnURL -rURL $requestedURL
-	$controllerFileInfoList = Load-Controllers; #if the file contains "*Controller.ps1" in the controllers directory, it's file information will be returned from ImportControllers()
-	foreach ($controllerFile in $controllerFileInfoList) {
-		. $controllerFile.FullName;
-    }
-
 	. "$webAppPath\Routes.ps1";
-	$responseBody = ''; #why was this GLOBAL, is it required for the views??
-	$yourRoutes = Get-Routes
-	$global:found = $false;
-	$routeCount = $yourRoutes.Count;
+	New-Variable -Name yourRoutes -Value (Get-Routes) -Option Constant;
+	New-Variable -Name routeCount -Value ($yourRoutes.Count) -Option Constant;
+	
+	if($routeCount -eq 0) {throw 'No routes found in route table!';}
 
-	if($routeCount -gt 0){
-		for($i=0;$i -lt $routeCount; $i++) {	
+	$responseBody = ''; #why was this GLOBAL, is it required for the views??
+	$global:found = $false;
+
+	for($i=0;$i -lt $routeCount; $i++) {	
 			
-			if(($global:found -eq $false) -and ($requestedURL -match $yourRoutes[$i][0])) {
-				[string] $matchedfunctionName = $yourRoutes[$i][1].name
-				[string] $invokedControllerName = $yourRoutes[$i][2]
-				Import-Module  $webAppPath\core\ViewLoader.psm1 -ArgumentList @($webAppPath,$invokedControllerName,$matchedfunctionName)
+		if(($global:found -eq $false) -and ($trimmedURL -match $yourRoutes[$i][0])) {
+			[bool] $global:found = $true;
+			New-Variable -Name ControllerName -Value ($yourRoutes[$i][1]) -Option Constant
+			New-Variable -Name FunctionName -Value ($yourRoutes[$i][2]) -Option Constant
+			New-Variable -Name ControllerFilePath -Value (Get-ControllerFilePath -Name $ControllerName) -Option Constant
 			
-				[bool] $global:found = $true;
-				[string] $missingFunctionError = "Route-Request: Unable to find function: '$matchedfunctionName' in Controller. (Route: "+$Matches[0] + ')';
+			. $ControllerFilePath #$Controller (module as custom object) is implicitly loaded into parent scope.
+
+			# exit early because the controller is not a custom object
+			if($Controller -isnot [PSCustomObject]) {throw 'Controller is not of type PSCustomObject'}
 			
-				switch($Matches.Count) {
-					1 {  try{$responseBody = $yourRoutes[$i][1].Invoke($Matches)}catch{$missingFunctionError};break;}
-					2 {  try{$responseBody = $yourRoutes[$i][1].Invoke($Matches[1],$Matches[2])}catch{$missingFunctionError}break;}
-					3 {  try{$responseBody = $yourRoutes[$i][1].Invoke($Matches[1],$Matches[2],$Matches[3])}catch{$missingFunctionError};break}
-					4 {  try{$responseBody = $yourRoutes[$i][1].Invoke($Matches[1],$Matches[2],$Matches[3],$Matches[4])}catch{$missingFunctionError};break}
-					default { "Routing: a route couldn't be invoked."}
-				} #end switch
+			# exit early because the controller does not define a function / scriptmethod that was loaded from the route table.
+			if((Check-ControllerHasScriptMethodDefinition -ControllerName $ControllerName -ScriptMethod $FunctionName) -eq $false) {return} 
+				
+			Import-Module $webAppPath\core\ViewLoader.psm1 -ArgumentList @($webAppPath,$ControllerName,$FunctionName) -DisableNameChecking
+				
+			switch($Matches.Count) {
+				1 { 
+					$responseBody = $Controller.$FunctionName.Invoke($Matches);
+					break;
+				}
+				2 {
+					$responseBody = $Controller.$FunctionName.Invoke($Matches[1],$Matches[2]);
+					break;
+				}
+				3 {
+					$responseBody = $Controller.$FunctionName.Invoke($Matches[1],$Matches[2],$Matches[3]);
+					break;
+				}
+				4 {
+					$responseBody = $Controller.$FunctionName.Invoke($Matches[1],$Matches[2],$Matches[3],$Matches[4]);
+					break;
+				}
+				default { throw "Routing: a route couldn't be invoked.";}
+			} #end switch
 			
-				$responseBody
-				continue;
+			$responseBody;
+			continue;
 			
-			}#end if
-		} #end for
-	}#end if
-	else {
-		throw '0 routes were found in your route table. Please check your routes.ps1 file, and add 1 or more routes'
-	}
+		}#end if
+	} #end for
+
+	if($global:found -eq $false) {$response.StatusCode = 404}
 }

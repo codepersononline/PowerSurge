@@ -1,11 +1,11 @@
-$SamplesController = New-Module -Name 'SamplesController' {
+$Controller = New-Module -Name 'SamplesController' {
 
 	function Index {
 	 "Samples Controller Index"
 	}
 
 	function Map {
-		Get-View2 -ViewName 'Map' -ControllerName Samples
+		Get-View #-ViewName 'Map' -ControllerName Samples
 	}
 
 	Function GeoJSON {

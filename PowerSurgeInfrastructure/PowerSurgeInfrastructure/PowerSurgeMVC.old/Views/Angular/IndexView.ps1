@@ -1,6 +1,0 @@
-@"
-Angular Controller Index
-$($ddd)
-
-"@
-

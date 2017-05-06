@@ -33,6 +33,7 @@
     <Folder Include="Core\rendering\" />
     <Folder Include="help_guides\" />
     <Folder Include="Models\" />
+    <Folder Include="Models\ProcessModel\" />
     <Folder Include="Resources\" />
     <Folder Include="Resources\dll\" />
     <Folder Include="Resources\Logging\" />
@@ -63,14 +64,14 @@
     <Compile Include="Controllers\PerformanceController.ps1" />
     <Compile Include="Controllers\PSObjectController.ps1" />
     <Compile Include="Controllers\SamplesController.ps1" />
+    <Compile Include="Controllers\ThreadingController.ps1" />
     <Compile Include="Core\config.ps1" />
     <Compile Include="Core\DB.ps1" />
     <Compile Include="Core\Debugging.psm1" />
     <Compile Include="Core\HttpMethods.psm1" />
     <Compile Include="Core\HttpUtility.psm1" />
     <Compile Include="Core\init.ps1" />
-    <Compile Include="Core\Loaders.psm1" />
-    <Compile Include="Core\Loaders.tests.ps1" />
+    <Compile Include="Core\ControllerLoader.psm1" />
     <Compile Include="Core\log4netConfig\app.config" />
     <Compile Include="Core\Logging.ps1" />
     <Compile Include="Core\PowerSurgeMVC.ps1" />
@@ -78,7 +79,6 @@
     <Compile Include="Core\rendering\render-table.ps1" />
     <Compile Include="Core\Routing.psm1" />
     <Compile Include="Core\Routing.Tests.ps1" />
-    <Compile Include="Core\RoutingClassic.psm1" />
     <Compile Include="Core\RoutingClassic.tests.ps1" />
     <Compile Include="Core\securityutilityfunctions.psm1" />
     <Compile Include="Core\securityutilityfunctions.tests.ps1" />
@@ -91,6 +91,7 @@
     <Compile Include="Core\webserver.ps1" />
     <Compile Include="help_guides\Controllers tutorial.txt" />
     <Compile Include="Models\BlogRepository.ps1" />
+    <Compile Include="Models\ProcessModel\ProcessModel.psm1" />
     <Compile Include="Resources\dll\log4net.dll" />
     <Compile Include="Resources\dll\log4net.xml" />
     <Compile Include="Resources\Logging\app.config" />
@@ -122,6 +123,7 @@
     <Content Include="Resources\ErrorPages\404.html" />
     <Content Include="static\css\debugging.css" />
     <Content Include="static\scripts\debugging.js" />
+    <Content Include="Views\Module\FirefoxProcessView.html" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

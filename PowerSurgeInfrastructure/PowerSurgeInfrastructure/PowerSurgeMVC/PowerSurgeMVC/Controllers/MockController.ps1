@@ -1,10 +1,9 @@
-﻿$MockController = New-Object –TypeName PSObject
+﻿$Controller = New-Object –TypeName PSObject
 
-$MockController | Add-Member -PassThru -MemberType ScriptMethod Index -Value { 
+$Controller | Add-Member -PassThru -MemberType ScriptMethod Index -Value { 
 	'<h1>Hello World from MockController Index function!</h1>';
 } 
-
-$MockController | Add-Member -PassThru -MemberType ScriptMethod GetUser -Value { 
+$Controller | Add-Member -PassThru -MemberType ScriptMethod GetUser -Value { 
     param(
     	$id, 
 		$name
@@ -40,12 +39,12 @@ $MockController | Add-Member -PassThru -MemberType ScriptMethod GetUser -Value {
      
 } 
 
-$MockController | Add-Member -PassThru -MemberType ScriptMethod SimpleForm -Value { 	
+$Controller | Add-Member -PassThru -MemberType ScriptMethod SimpleForm -Value { 	
 	Get-View -ViewData @{'steve' = 'rathbone'}
 }  
 
 #http://stackoverflow.com/questions/3441735/detect-ajax-call-asp-net
-$MockController | Add-Member -PassThru -MemberType ScriptMethod ShowAJAXForm -Value { 	
+$Controller | Add-Member -PassThru -MemberType ScriptMethod ShowAJAXForm -Value { 	
 	$HTMLString = "
 	 $(Script 'jquery-1.11.2.js') 
 		<h1>An Ajax form posting example!</h1>
@@ -57,7 +56,7 @@ $MockController | Add-Member -PassThru -MemberType ScriptMethod ShowAJAXForm -Va
 	<script>
 	`$(document).ready(function() {
 		`$(""#button"").click(function(){
-		  $.post(""$($baseURL)/Mock/GetSurname"",`$('#searchbox'),
+		  $.post(""$($baseURL)/Mock/getajaxresponse"",`$('#searchbox'),
 		  function(data,status){
 			 //alert(""Data: "" + data + ""\nStatus: "" + status);
 				`$(""#page"").append(data)
@@ -70,10 +69,9 @@ $MockController | Add-Member -PassThru -MemberType ScriptMethod ShowAJAXForm -Va
 	return $HTMLString
 }  
 
-$MockController | Add-Member -PassThru -MemberType ScriptMethod GetSurname -Value { 
-	if(Request-IsAJAX) {
-		$sr = New-Object System.IO.StreamReader $request.InputStream
-		
+$Controller | Add-Member -PassThru -MemberType ScriptMethod Getajaxresponse -Value { 
+	
+	if(Request-HTTPAJAX) {	
 		return ('<p>Hi ' + $request['searchbox'] + "! the current date and time on the server is: <b>$([datetime]::Now)</b></p>")
 	} else {
 		return 'function is only accessable via AJAX.'
@@ -81,7 +79,7 @@ $MockController | Add-Member -PassThru -MemberType ScriptMethod GetSurname -Valu
 	
 }
 
-$MockController | Add-Member -PassThru -MemberType ScriptMethod Count -Value { 
+$Controller | Add-Member -PassThru -MemberType ScriptMethod Count -Value { 
 	if ($session['count'] -eq $null) { $session['count'] = 0; }
 	$response = "<!DOCTYPE html><html>
 	<head>
@@ -95,7 +93,7 @@ $MockController | Add-Member -PassThru -MemberType ScriptMethod Count -Value {
 } 
 
 
-$MockController | Add-Member -PassThru -MemberType ScriptMethod Login -Value { 
+$Controller | Add-Member -PassThru -MemberType ScriptMethod Login -Value { 
 	if($session["loggedin"] -eq $null) { $session["loggedin"] = $false; } #if the variable doesn't exist, create it and set it to false...
 
 	if($session["loggedin"] -eq $false) {
@@ -115,26 +113,26 @@ $MockController | Add-Member -PassThru -MemberType ScriptMethod Login -Value {
 		return $content;
 }
 
-$MockController | Add-Member -PassThru -MemberType ScriptMethod LoginProcess -Value {
+$Controller | Add-Member -PassThru -MemberType ScriptMethod LoginProcess -Value {
 	if($session['loggedin'] -eq $false) { $session['loggedin'] = $true; } #if the variable doesn't exist, create it and set it to false...
 	
 	$session['firstname'] = $request.Form['firstname']
 	$session['userRole'] = "User"
 	if($request.Form['firstname'] -eq 'Toby') { $session['userRole'] = 'Administrator' }
 	if($request.Form['firstname'] -eq 'Steve') { $session['userRole'] = 'Super User' }
-	$response.Redirect($baseURL); 
+	#$response.Redirect($baseURL); 
 	
 	return "Hi $($request.Form['firstname']), you are now logged in as $($session['userRole'])"; 
 }
 
-$MockController | Add-Member -PassThru -MemberType ScriptMethod -Name Logout -Value {
+$Controller | Add-Member -PassThru -MemberType ScriptMethod -Name Logout -Value {
 	if($session['loggedin'] -eq $true) { $session['loggedin'] = $null; } #if the variable doesn't exist, create it and set it to false...
 	$session.Clear();
 	
 	return 'You have now been logged out.'; 
 }
 
-$MockController | Add-Member -PassThru -MemberType ScriptMethod -Name Download -Value {
+$Controller | Add-Member -PassThru -MemberType ScriptMethod -Name Download -Value {
 param(
 	[string]$filename
 )	

@@ -1,6 +1,6 @@
 #Used for Performance Testing Only!
 
-$PerformanceController = New-Module 'PerformanceController' {
+$Controller = New-Module 'PerformanceController' {
 Param()
   
     Function FastRequest {

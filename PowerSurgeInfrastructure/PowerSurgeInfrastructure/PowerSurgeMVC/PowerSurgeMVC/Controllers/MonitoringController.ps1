@@ -1,5 +1,5 @@
 ﻿
-$MonitoringController = New-Module -Name 'MonitoringController' {
+$Controller = New-Module -Name 'MonitoringController' {
 param($response)
 	Function Index { 
 		'<!DOCTYPE html><html><head><link rel=""shortcut icon"" href=""//cdn.sstatic.net/stackoverflow/img/favicon.ico""/><meta charset=""utf-8""><title>Title of the document</title></head><body><h1>Hello World from MonitoringController Index function!</h1><body></html>';

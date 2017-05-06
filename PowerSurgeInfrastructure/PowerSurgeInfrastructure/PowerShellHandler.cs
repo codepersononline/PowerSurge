@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Web;
 using System.Web.SessionState;
 
@@ -11,6 +12,7 @@ namespace PowerSurgeInfrastructure {
         /// </summary>
         #region IHttpHandler Members
         bool performanceTesting = false;
+        bool threadTesting = false;
 
         public bool IsReusable {
             // Return false in case your Managed Handler cannot be reused for another request.
@@ -23,8 +25,13 @@ namespace PowerSurgeInfrastructure {
        
             psBroker.initializeEnvironment(context);
             context.Response.ContentType = "text/html";
-            context.Response.Write(psBroker.InvokePowerShell(context));
+            if (threadTesting) {
+                context.Response.Write("<p>ASP.NET ManagedThreadID: " + Thread.CurrentThread.ManagedThreadId + "</p>");
+                context.Response.Write("<p>ASP.NET response hashcode: " + context.Response.GetHashCode() + "</p>");
+            }
 
+            context.Response.Write(psBroker.InvokePowerShell(context));
+                
             if (performanceTesting) {
                 context.Response.Write("<br/>ASP.NET recieved powershell response" + DateTime.Now.ToString());
             }
