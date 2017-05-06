@@ -83,7 +83,7 @@ namespace PowerSurgeInfrastructure
                         "<html>" +
                             "<head>" +
                                 "<meta charset=\"UTF-8\">" +
-                                "<title>Title of the document - Version 0.1</title>" +
+                                "<title>PowerSurgeMVC Runtime Exception - Version 0.1</title>" +
                                 "<link rel=\"stylesheet\" type=\"text/css\" href=\"http://fonts.googleapis.com/css?family=Inconsolata\">" +
                                 "<link rel=\"stylesheet\" type=\"text/css\" href=\"http://fonts.googleapis.com/css?family=Courgette\">" +
                                 "<style>body {background:radial-gradient(#386794,#0e1a25);margin:0px;padding:0px;min-height:1000px;} " +
