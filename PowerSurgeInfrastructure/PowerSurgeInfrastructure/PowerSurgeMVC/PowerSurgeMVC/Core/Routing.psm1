@@ -27,13 +27,42 @@ param(
 	else {throw "'$ControllerName' controller has more than one definition for scriptmethod '$ScriptMethod'"}
 }
 
+<#
+.SYNOPSIS
+Direct the user's web request to the correct controller.
+
+.DESCRIPTION
+Route-Request works by doing these things:
+1. Trims the URL slashes in case there are double slashes or, no slashes. Examples: http://localhost or http://localhost/ or http://localhost//
+2. Load the routing table from routes.ps1.
+3. Evaluate $RequestedURL against each regular expression defined in the routing table, starting from the top.
+4. Once a route is found, stop looking routes.
+5. Load the controller file from disk.
+6. Check the returned Controller is type psobject.
+7. Check the Controller defines a method/function matching what's in the route table.
+8. Invoke the method/function, and pass in the parameters extracted from $RequestedURL.
+
+.PARAMETER RequestedURL
+RequestedURL is the entire string after the domain name. eg. http://localhost.com/abc/def/3 equals: /abc/def/3
+
+.PARAMETER IsAJAXRequest
+if the Request was sent using ajax, this should be set to true.
+paramter is used to determine if templates should be loaded or not.
+
+.PARAMETER Routes
+Only used for testing at the moment.
+
+.NOTES
+IsAJAXRequest/global templates probably not working.
+#>
 function Route-Request {
+	
 param(
-	[string] $requestedURL,
-	[bool] $isAJAXRequest,
+	[string] $RequestedURL,
+	[bool] $IsAJAXRequest,
 	$Routes #not used yet 19/12/2016
 )
-	New-Variable -Name trimmedURL -Value (Trim-FirstAndLastSlashesOnURL -rURL $requestedURL) -Option Constant;
+	New-Variable -Name trimmedURL -Value (Trim-FirstAndLastSlashesOnURL -rURL $RequestedURL) -Option Constant;
 	
 	. "$webAppPath\Routes.ps1";
 	New-Variable -Name yourRoutes -Value (Get-Routes) -Option Constant;
@@ -90,3 +119,4 @@ param(
 
 	if($global:found -eq $false) {$response.StatusCode = 404}
 }
+Export-ModuleMember -Function 'Route-Request'
