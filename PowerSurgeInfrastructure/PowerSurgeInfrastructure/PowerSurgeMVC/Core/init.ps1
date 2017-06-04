@@ -24,6 +24,6 @@ param(
     [string]$AppDomainPath
 )
 
-    . "$AppDomainPath\PowerSurgeMVC\PowerSurgeMVC\core\powersurgeMVC.ps1"
+    . "$AppDomainPath\PowerSurgeMVC\core\powersurgeMVC.ps1"
     Start-PowerSurge $Request $Response $AppDomainPath
 }

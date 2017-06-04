@@ -1,4 +1,3 @@
-$PSObjectController = New-Object –TypeName PSObject
 
 $PSObjectController | Add-Member -MemberType ScriptMethod -Name "AboutMe" -Value { 
 	'<html><title>About Me</title><body>

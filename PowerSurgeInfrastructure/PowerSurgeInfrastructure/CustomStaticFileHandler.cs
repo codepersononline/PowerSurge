@@ -33,8 +33,8 @@ namespace PowerSurgeInfrastructure
                 case ".gif": return "Image/gif";
                 case ".jpg": return "Image/jpeg";
                 case ".png": return "Image/png";
-                case ".js": return "text/javascript";
-                case ".css": return "text/css";
+                case ".js": return "text/javascript;charset=UTF-8";
+                case ".css": return "text/css;charset=UTF-8";
                 default: break;
             }
             return "text/html";

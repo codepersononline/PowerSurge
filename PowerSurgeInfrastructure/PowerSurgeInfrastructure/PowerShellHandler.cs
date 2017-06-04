@@ -21,7 +21,7 @@ namespace PowerSurgeInfrastructure {
         }
 
         public void ProcessRequest(HttpContext context) {
-            IPowerShellHttpBroker psBroker = new SimplePowerShellHttpBroker(HttpRuntime.AppDomainAppPath + @"PowerSurgeMVC\PowerSurgeMVC\core\init.ps1");
+            IPowerShellHttpBroker psBroker = new SimplePowerShellHttpBroker(HttpRuntime.AppDomainAppPath + @"PowerSurgeMVC\core\init.ps1");
        
             psBroker.initializeEnvironment(context);
             context.Response.ContentType = "text/html";

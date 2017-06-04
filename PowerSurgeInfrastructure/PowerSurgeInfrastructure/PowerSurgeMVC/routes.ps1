@@ -34,8 +34,10 @@ function Get-Routes {
 	$routes.Add( @('^Mock/Count$','Mock','Count'))
 	$routes.Add( @('^Mock/Logout$','Mock','Logout'))
 	$routes.Add( @('^Mock/Download$','Mock', 'Download'))
+
 	$routes.Add( @('^module/SimpleForm$','Module', 'SimpleForm'))
-	$routes.Add( @('^module/AboutMe$','Module','AboutMe')) 
+    $routes.Add( @('^module/AboutMe$', 'Module', 'AboutMe')) 
+    $routes.Add( @('^module/embeddedstaticfiletest$', 'Module', 'embeddedstaticfiletest')) 
 	
 	$routes.Add( @('^module/Process$','Module','FireFoxProcess')) 
 	

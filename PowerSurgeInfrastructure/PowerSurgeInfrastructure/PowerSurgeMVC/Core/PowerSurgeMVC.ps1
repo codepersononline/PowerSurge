@@ -7,7 +7,7 @@ Set-StrictMode -Version Latest;
 [psvariable[]] $Global:allvars = $null;
 
 Set-Variable -Name 'PowerSurgeAppPath' `
-			 -Value ([string]"$AppDomainPath\PowerSurgeMVC\PowerSurgeMVC") `
+			 -Value ([string]"$AppDomainPath\PowerSurgeMVC") `
 			 -Option Constant;
 
 function Start-PowerSurge {

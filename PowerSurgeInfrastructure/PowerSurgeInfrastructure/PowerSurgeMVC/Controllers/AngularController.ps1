@@ -1,4 +1,4 @@
-$AngularController = New-Object –TypeName PSObject
+$AngularController = New-Object -TypeName PSObject
 
 $AngularController | Add-Member -MemberType ScriptMethod -Name "Index" -Value {	
 	$ViewHashTable = @{
