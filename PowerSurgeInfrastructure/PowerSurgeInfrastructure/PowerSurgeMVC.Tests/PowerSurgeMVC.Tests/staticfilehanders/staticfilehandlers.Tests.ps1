@@ -2,7 +2,7 @@ $PowerSurgeFolderPath = '..\..\..\PowerSurgeMVC'
 $URL = 'http://localhost:60453'
 
 Describe 'Static File Handlers'{
-
+  
 	Context 'When loading a static file' {
         $DiskPathForImages = "$PowerSurgeFolderPath\static\images"
         $DiskPathForCSS = "$PowerSurgeFolderPath\static\css"
@@ -44,7 +44,6 @@ Describe 'Static File Handlers'{
 
             $cssHTTPResponse.statusCode | Should Be '200'
             $cssHTTPResponse.content | Should Be 'SUCCESS'
-
 		}
 
         It 'Should check that test.js can be loaded, and the file contents is equal to SUCCESS' {

@@ -5,7 +5,7 @@ $Controller = New-Module -Name 'SamplesController' {
 	}
 
 	function Map {
-		Get-View #-ViewName 'Map' -ControllerName Samples
+		Render-PartialView
 	}
 
 	Function GeoJSON {

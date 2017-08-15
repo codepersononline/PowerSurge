@@ -90,6 +90,7 @@ param(
 			if((Check-ControllerHasScriptMethodDefinition -ControllerName $ControllerName -ScriptMethod $FunctionName) -eq $false) {return} 
 				
 			Import-Module $webAppPath\core\ViewLoader.psm1 -ArgumentList @($webAppPath,$ControllerName,$FunctionName) -DisableNameChecking
+            . $webAppPath\core\viewhelperfunctions.ps1
 				
 			switch($Matches.Count) {
 				1 { 

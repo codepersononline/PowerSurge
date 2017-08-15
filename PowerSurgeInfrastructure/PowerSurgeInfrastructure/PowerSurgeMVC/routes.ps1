@@ -1,7 +1,7 @@
 function Get-Routes {
 	$routes = New-Object System.Collections.Generic.List[System.Object[]];
-	$routes.Add( @('^$','Threading','getcurrentthread'))
-	$routes.Add( @('^appdomain$','Threading','GetAppDomain'))
+    $routes.Add( @('^getcurrentthread$', 'Threading', 'getcurrentthread'))
+	$routes.Add( @('^getappdomain$','Threading','GetAppDomain'))
 	<#
 	$routes.Add( @('^module/AboutMe$',$ModuleController.AboutMe)) 
 	$routes.Add( @('^module/AddTwoNumbers/([0-9])/([0-9])$',$ModuleController.AddTwoNumbers)) 
@@ -26,20 +26,22 @@ function Get-Routes {
 	$routes.Add( @('^processeshtml$','Monitoring','ProcessesHTML'))
 	$routes.Add( @('^services$','Monitoring','ServicesJSON'))
 	
-	$routes.Add( @('^Mock$','Mock','Index'))
-	$routes.Add( @('^Mock/ShowAjaxForm$','Mock','ShowAJAXForm'))
-	$routes.Add( @('^Mock/getajaxresponse','Mock','Getajaxresponse'))
-	$routes.Add( @('^Mock/Login$','Mock','Login'))
-	$routes.Add( @('^Mock/LoginProcess$','Mock','LoginProcess'))
-	$routes.Add( @('^Mock/Count$','Mock','Count'))
-	$routes.Add( @('^Mock/Logout$','Mock','Logout'))
-	$routes.Add( @('^Mock/Download$','Mock', 'Download'))
-
+	$routes.Add( @('^Module$','Mock','Index'))
+	$routes.Add( @('^Module/ShowAjaxForm$','Module','ShowAJAXForm'))
+	$routes.Add( @('^Module/getajaxresponse','Module','Getajaxresponse'))
+	$routes.Add( @('^Module/Login$','Module','Login'))
+	$routes.Add( @('^Module/LoginProcess$','Module','LoginProcess'))
+	$routes.Add( @('^Module/Count$','Module','Count'))
+	$routes.Add( @('^Module/Logout$','Module','Logout'))
+	
+	$routes.Add( @('^Module/Download$','Module', 'Download'))
 	$routes.Add( @('^module/SimpleForm$','Module', 'SimpleForm'))
     $routes.Add( @('^module/AboutMe$', 'Module', 'AboutMe')) 
     $routes.Add( @('^module/embeddedstaticfiletest$', 'Module', 'embeddedstaticfiletest')) 
 	
 	$routes.Add( @('^module/Process$','Module','FireFoxProcess')) 
 	
+    $routes.Add(@('^date$', 'Date', 'TodaysDate'))
+
 	$routes;
 }

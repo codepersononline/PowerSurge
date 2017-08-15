@@ -19,16 +19,20 @@ namespace PowerSurgeInfrastructure
 
         void IHttpHandler.ProcessRequest(HttpContext context)
         {
-            context.Response.ContentType = getContentType(context.Request.PhysicalPath);
-            context.Response.WriteFile(context.Request.PhysicalPath);
-            context.Response.End();
+            string fileExtention = Path.GetExtension(context.Request.PhysicalPath);
             
+            if(fileExtention == ".ps1" || fileExtention == ".psm1" || fileExtention == ".psd1") {
+                context.Response.StatusCode = 403;
+            }
+            else {
+                context.Response.ContentType = getContentType(fileExtention);
+                context.Response.WriteFile(context.Request.PhysicalPath);
+                context.Response.End();
+            }
         }
 
-        string getContentType(String path)
-        {
-            switch (Path.GetExtension(path))
-            {
+        string getContentType(String extension) {
+            switch (extension) {
                 case ".bmp": return "Image/bmp";
                 case ".gif": return "Image/gif";
                 case ".jpg": return "Image/jpeg";
