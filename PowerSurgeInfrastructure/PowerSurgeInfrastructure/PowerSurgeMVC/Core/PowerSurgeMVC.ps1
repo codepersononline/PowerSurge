@@ -11,12 +11,12 @@ Set-Variable -Name 'PowerSurgeAppPath' `
 			 -Option Constant;
 
 function Start-PowerSurge {
+[cmdletbinding()]	
 param(
 	[System.Web.HttpRequest] $request,
 	[System.Web.HttpResponse] $response,
 	[string] $AppDomainPath
 )   
-
 	Import-Module $PowerSurgeAppPath\config.psm1 -DisableNameChecking;
 	$global:request = $request;
 	$global:response = $response;
@@ -25,12 +25,12 @@ param(
 	
 	Import-Module $PowerSurgeAppPath\core\HttpUtility.psm1 -DisableNameChecking;
 	Import-Module $PowerSurgeAppPath\core\HttpMethods.psm1 -DisableNameChecking;
-	Import-Module $PowerSurgeAppPath\core\Routing.psm1 -ArgumentList $PowerSurgeAppPath;
+	Import-Module $PowerSurgeAppPath\core\Routing.psm1 -ArgumentList $PowerSurgeAppPath -Function 'Route-Request'
 
-	Import-Module $PowerSurgeAppPath\App.psm1 -ArgumentList $PowerSurgeAppPath
+	#Import-Module $PowerSurgeAppPath\App.psm1 -ArgumentList $PowerSurgeAppPath
 	
 
-	App\Initialize-App;
+	#App\Initialize-App;
 	Initialize-Logging;
 
 	Set-Variable -Name 'baseURL' `

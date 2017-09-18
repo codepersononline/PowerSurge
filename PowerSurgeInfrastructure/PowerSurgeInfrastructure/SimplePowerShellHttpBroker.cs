@@ -35,7 +35,7 @@ namespace PowerSurgeInfrastructure
             if (PowershellInitialized) { 
                 pShell.Runspace.CreatePipeline();
 
-                pShell.AddScript("Set-ExecutionPolicy -Scope Process -ExecutionPolicy Unrestricted"); //we need this to give the ASP.NET account script execution priveleges... do we really need this for every request???
+                pShell.AddScript(" $PSModuleAutoLoadingPreference = 'None'; Import-Module Microsoft.PowerShell.Utility; Import-Module Microsoft.PowerShell.Security;Set-ExecutionPolicy -Scope Process -ExecutionPolicy Unrestricted;"); //we need this to give the ASP.NET account script execution priveleges... do we really need this for every request???
                 pShell.AddScript(". " + FPOfScriptToExecute);
                 pShell.Invoke();
                 pShell.AddCommand("Init-PowerSurgeEnvironment");
@@ -48,7 +48,8 @@ namespace PowerSurgeInfrastructure
 
                    HttpResponse r = (HttpResponse) pShell.Runspace.SessionStateProxy.GetVariable("response");
                     //HTMLOutput.Append("steve injection" + r.ContentType);
-                        foreach (PSObject obj in results) {
+                    
+                    foreach (PSObject obj in results) {
                         //join all the results from PowerSurgeMVC, notice how each result is not being cast to string...
                         if (obj.ImmediateBaseObject.GetType().ToString() == "System.String") {
                             HTMLOutput.Append((string)obj.ImmediateBaseObject);
@@ -60,7 +61,7 @@ namespace PowerSurgeInfrastructure
                     
                     var errorArray = (ArrayList) pShell.Runspace.SessionStateProxy.GetVariable("error");
                     errorArray.Reverse();
-
+                    
                     foreach (ErrorRecord error in errorArray) {
                         nonTerminatingErrors.Append("<b>Error:</b> " + error.Exception.Message);
                         nonTerminatingErrors.Append("</br>");
@@ -75,7 +76,7 @@ namespace PowerSurgeInfrastructure
                     }
                     // close the runspace and return the result to IIS to be transmitted back to the user. we are now done.
                     PowersurgeRunspace.Close();
-                    return nonTerminatingErrors.ToString() + HTMLOutput.ToString();
+                    return nonTerminatingErrors.Append(HTMLOutput.ToString()).ToString();
                 }
                 catch (RuntimeException runtimeException) {
                     string template =

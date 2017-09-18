@@ -29,12 +29,19 @@ namespace PowerSurgeInfrastructure {
                 context.Response.Write("<p>ASP.NET ManagedThreadID: " + Thread.CurrentThread.ManagedThreadId + "</p>");
                 context.Response.Write("<p>ASP.NET response hashcode: " + context.Response.GetHashCode() + "</p>");
             }
-
-            context.Response.Write(psBroker.InvokePowerShell(context));
-                
-            if (performanceTesting) {
-                context.Response.Write("<br/>ASP.NET recieved powershell response" + DateTime.Now.ToString());
+            if (performanceTesting)
+            {
+                DateTime before = DateTime.Now;
+                context.Response.Write(psBroker.InvokePowerShell(context));
+                TimeSpan ts = new TimeSpan();
+                ts = before.Subtract(DateTime.Now);
+                context.Response.Write("<br/>ASP.NET recieved powershell response in" + ts.Milliseconds);
             }
+            else {
+                context.Response.Write(psBroker.InvokePowerShell(context));
+            }
+           
+            context.Response.End();
         }
 
         #endregion

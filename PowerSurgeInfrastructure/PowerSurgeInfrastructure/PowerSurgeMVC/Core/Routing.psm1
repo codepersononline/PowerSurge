@@ -3,7 +3,25 @@
 )
 
 Import-Module $webAppPath\core\URL.psm1 -DisableNameChecking
-Import-Module $webAppPath\core\ControllerLoader.psm1 -ArgumentList $webAppPath -DisableNameChecking
+
+function Get-ControllerFilePath {
+	param(
+		[string] $webAppPath = $script:webAppPath,
+		[string] $Name 
+	)
+		if([string]::IsNullOrEmpty($Name)){
+			throw 'Controller name is null or empty, cannot load file.'
+		}
+		
+		$fPath = "$webAppPath\Controllers\$Name" + 'Controller.ps1';
+		
+		if([System.IO.File]::Exists($fPath)) {
+			return $fPath
+		}
+		else {
+			throw "Controller at $fPath does not exist."
+		}
+	} 
 #Import-Module $webAppPath\core\securityutilityfunctions.psm1;
 #Import-Module $webAppPath\core\HttpUtility.psm1;
 
@@ -56,7 +74,7 @@ Only used for testing at the moment.
 IsAJAXRequest/global templates probably not working.
 #>
 function Route-Request {
-	
+[cmdletbinding()]
 param(
 	[string] $RequestedURL,
 	[bool] $IsAJAXRequest,
@@ -120,4 +138,4 @@ param(
 
 	if($global:found -eq $false) {$response.StatusCode = 404}
 }
-Export-ModuleMember -Function 'Route-Request'
+Export-ModuleMember -Function 'Route-Request' -Cmdlet '' -Variable ''

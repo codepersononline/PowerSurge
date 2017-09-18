@@ -1,45 +1,44 @@
 ﻿body {
-	font-family: sans-serif;
-	background-color: #063852;
-}
-
-#login{
-	text-align:right;
+	font-family:Courier New, Courier, monospace;
+	background-color:whitesmoke;
 }
 
 #page {
+	height: auto;
     width: 960px;
-	height:100%;
-	background-color:white;
+	background-color:whitesmoke;
 }
 
 #menu {
 	list-style-type: none;
 }
 
+#menu li {
+	border: 40px;
+	padding: 10px;
+}
+
 a {
 	text-decoration: none;
-	color:white;
+}
+a:hover{
+	background-color:greenyellow;
 }
 	
 #nav{
-	background-color:#063852;
 	float:left;
 	width:300px;
-	color:green;
+	padding-top: 60px;
 }
 
 #content {
 	float:right;
     width: 660px;
-	height:100%;
-    background-color: #EFECCA;
 	text-indent:20px;
 }
 
 #footer {
-	padding-top:20px;
-	padding-bottom:20px;
+	display: table-cell;
 	text-align:center;
 	width:960px;
 }

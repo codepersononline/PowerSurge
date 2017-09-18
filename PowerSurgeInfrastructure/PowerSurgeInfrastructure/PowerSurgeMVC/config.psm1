@@ -7,12 +7,12 @@ $global:steve = 31;
 [string]$debugString = 'Debug Info: ';
 
 $global:AppConfig = @{
-    'ApplicationName' = "Steve's MVC App!";
+    'ApplicationName' = 'PowerSurge MVC';
     'Logging' = $false;
     'Debugging' = $false;
     'DBConnectionString' = 'Data Source=.\SQLEXPRESS;Integrated Security=SSPI;Initial Catalog=LeslieMVCBlog';
     'UseGlobalView' = $true;
-    'defaultRoute' ='/Mock/Index'
+    'defaultRoute' ='/Home/Index'
 }
 
 

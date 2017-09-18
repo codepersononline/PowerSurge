@@ -12,7 +12,7 @@ param(
 )   
 	New-Variable -Option Constant -Name 'viewFolderPath' -Value ([string]"$WebsitePath\Views\")
 	New-Variable -Option Constant -Name 'viewSubfolderPath' -Value ([string]"$viewFolderPath\$ControllerName")
-	New-Variable -Option Constant -Name 'fileNameToBeFoundHTML' -Value ([string]::Concat($ViewName,'View.html'))
+	New-Variable -Option Constant -Name 'fileNameToBeFoundHTML' -Value ([string]::Concat($ViewName,'View.pshtml'))
 	New-Variable -Option Constant -Name 'fileNameToBeFoundPS1' -Value ([string]::Concat($ViewName,'View.ps1'))
 
 	if([System.IO.File]::Exists("$viewSubfolderPath\$fileNameToBeFoundHTML")){
@@ -64,7 +64,7 @@ param(
 				
 		$content = Render-PartialView -ViewName $script:invokedActionName -ViewData $ViewData
 		
-		if($ViewFilePath[0] -eq 1) {#found .html view
+		if($ViewFilePath[0] -eq 1) {#found .pshtml view
 				$ViewContent = [string]::Concat("@`"`n",([System.IO.File]::ReadAllText($ViewFilePath[1], [System.Text.Encoding]::UTF8 )),"`n`"@")
 				return [scriptblock]::Create($ViewContent).Invoke()
 		}
@@ -79,9 +79,9 @@ param(
     [hashtable] $ViewData = $null,
 	[string] $SubFolderName = $script:invokedControllerName
 )
-	DEBUG "Viewname: $viewName"
-	DEBUG "ControllerName: $controllerName"
-	DEBUG "ViewData: $ViewData"
+	#DEBUG "Viewname: $viewName"
+	#DEBUG "ControllerName: $controllerName"
+	#DEBUG "ViewData: $ViewData"
 
     . $websitePath\core\ViewHelperFunctions.ps1;
 
