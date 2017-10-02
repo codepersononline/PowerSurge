@@ -1,10 +1,9 @@
-﻿$PowerSurgeMVCPath = 'C:\Users\steve\Documents\GitHub\PowerSurge\PowerSurgeInfrastructure\PowerSurgeInfrastructure\PowerSurgeMVC\PowerSurgeMVC'
-
-Import-Module $PowerSurgeMVCPath\Core\Routing.psm1 -ArgumentList $PowerSurgeMVCPath -DisableNameChecking;
-Import-Module $PowerSurgeMVCPath\Core\Loaders.psm1 -ArgumentList $PowerSurgeMVCPath -DisableNameChecking;
+﻿Import-Module .\PowerSurgeMVC\Core\Routing.psm1 -ArgumentList "$PWD\PowerSurgeMVC" -DisableNameChecking;
 
 Describe 'Routing' {
 	Context 'When requesting a webpage with a request string' {
+		
+		Copy-Item .\PowerSurgeMVC\PesterResources\PerformanceController.ps1 -Destination .\PowerSurgeMVC\Controllers
 		
 		It 'Finds FastRequest' { 
 			$res =	Route-Request -requestedURL '/Performance/FastRequest' -isAJAXRequest $false 
@@ -23,13 +22,14 @@ Describe 'Routing' {
 
 			#>
 			$res =	Route-Request -requestedURL '/NoRoute' -isAJAXRequest $false 
-			$res -match	'Route-Request: Unable to find function:' | should be $true
+			$res -match	'Route-Request: Unable to find function:' | should throw
 		}
 
-		It 'invokes a controller function that accepts 2 apare, but the route match was successful.' { 
+		It "Invokes a controller's function that accepts 2 params, and the route match is successful." { 
 			$res = Route-Request -requestedURL '/TestRoute/4/5' -isAJAXRequest $false 
 			$res -match	'TestRoute called, param a is: 4, param b is: 5' | should be $true
 		}
 	}
+	Remove-Item .\PowerSurgeMVC\Controllers\PerformanceController.ps1
 }
 Remove-Module Routing

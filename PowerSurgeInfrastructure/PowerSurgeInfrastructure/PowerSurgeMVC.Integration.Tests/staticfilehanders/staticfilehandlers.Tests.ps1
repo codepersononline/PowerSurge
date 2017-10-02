@@ -1,13 +1,13 @@
-$PowerSurgeFolderPath = '..\..\..\PowerSurgeMVC'
-$URL = 'http://localhost:60453'
 
 Describe 'Static File Handlers'{
   
 	Context 'When loading a static file' {
+        
+        #Set-Location -Path $PowerSurgeFolderPath
         $DiskPathForImages = "$PowerSurgeFolderPath\static\images"
         $DiskPathForCSS = "$PowerSurgeFolderPath\static\css"
         $DiskPathForJS = "$PowerSurgeFolderPath\static\scripts"
-
+        
 		Copy-Item -Path .\resources\meme.jpg -Destination $DiskPathForImages
 		
         $webpage = (Invoke-WebRequest "$URL/Module/embeddedstaticfiletest")

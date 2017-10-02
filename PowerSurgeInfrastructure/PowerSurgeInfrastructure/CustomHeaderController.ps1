@@ -1,5 +1,4 @@
-
-$CustomHeaderController = New-Module 'CustomHeaderController' {
+$Controller = New-Module 'CustomHeaderController' {
 param()
 
 	function Insert-CustomHeader {

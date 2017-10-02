@@ -1,19 +1,9 @@
 ﻿$PowerSurgeURL = 'http://localhost:60453';
 
-cd $PSScriptRoot
+Copy-Item `
+    -Path .\PowerSurgeMVC.Integration.Tests\Controllers\TestData\CustomHeaderController.ps1 `
+    -Destination .\PowerSurgeMVC\Controllers\ 
 
-if(Test-Path '..\..\..\PowerSurgeMVC\PowerSurgeMVC\Controllers\') {
-    Copy-Item `
-        -Path .\TestData\CustomHeaderController.ps1 `
-        -Destination ..\..\..\PowerSurgeMVC\PowerSurgeMVC\Controllers\ 
-}
-
-if(Test-Path '..\..\..\PowerSurgeMVC\PowerSurgeMVC\') {
-        
-        Copy-Item `
-            -Path .\TestData\routes.ps1 `
-            -Destination ..\..\..\PowerSurgeMVC\PowerSurgeMVC\ 
-}
 
 Describe 'CustomHeaderController - Send an HTTP request to the CustomHeaderController with an arbitrary key value pair.' {
     $headerKey = 'steve';
@@ -37,7 +27,7 @@ Describe 'CustomHeaderController - Send an HTTP request to the CustomHeaderContr
         $ResponseHeaders.$headerKey| Should be $headerValue 
     }
     
-    $injectedControllerPath = '..\..\..\PowerSurgeMVC\PowerSurgeMVC\Controllers\CustomHeaderController.ps1'
+    $injectedControllerPath = '.\PowerSurgeMVC\Controllers\CustomHeaderController.ps1'
     
     if(Test-Path -Path $injectedControllerPath) {
         Remove-Item -Path $injectedControllerPath -Force;

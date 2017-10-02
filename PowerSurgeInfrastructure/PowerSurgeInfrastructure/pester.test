@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<test-results xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="nunit_schema_2.5.xsd" name="Pester" total="22" errors="0" failures="4" not-run="0" inconclusive="5" ignored="0" skipped="0" invalid="0" date="2017-10-03" time="05:24:11">
+  <environment user="steve" machine-name="STEVEZENBOOK" cwd="C:\Users\steve\Documents\GitHub\PowerSurge\PowerSurgeInfrastructure\PowerSurgeInfrastructure" user-domain="stevezenbook" platform="Microsoft Windows 8.1|C:\Windows|\Device\Harddisk0\Partition3" nunit-version="2.5.8.0" os-version="6.3.9600" clr-version="4.0.30319.42000" />
+  <culture-info current-culture="en-AU" current-uiculture="en-US" />
+  <test-suite type="TestFixture" name="Pester" executed="True" result="Failure" success="False" time="1.5142" asserts="0" description="Pester">
+    <results>
+      <test-suite type="TestFixture" name="C:\Users\steve\Documents\GitHub\PowerSurge\PowerSurgeInfrastructure\PowerSurgeInfrastructure\PowerSurgeMVC\Core\PowerSurgeMVC.tests.ps1" executed="True" result="Inconclusive" success="True" time="0.1239" asserts="0" description="C:\Users\steve\Documents\GitHub\PowerSurge\PowerSurgeInfrastructure\PowerSurgeInfrastructure\PowerSurgeMVC\Core\PowerSurgeMVC.tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="PowerSurgeMVC" executed="True" result="Inconclusive" success="True" time="0.1239" asserts="0" description="PowerSurgeMVC">
+            <results>
+              <test-suite type="TestFixture" name="Exists" executed="True" result="Inconclusive" success="True" time="0.1239" asserts="0" description="Exists">
+                <results>
+                  <test-case description="Runs" name="PowerSurgeMVC.Exists.Runs" time="0.1239" asserts="0" success="True" result="Inconclusive" executed="True" />
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+      <test-suite type="TestFixture" name="C:\Users\steve\Documents\GitHub\PowerSurge\PowerSurgeInfrastructure\PowerSurgeInfrastructure\PowerSurgeMVC\Core\Routing.Tests.ps1" executed="True" result="Failure" success="False" time="0.2092" asserts="0" description="C:\Users\steve\Documents\GitHub\PowerSurge\PowerSurgeInfrastructure\PowerSurgeInfrastructure\PowerSurgeMVC\Core\Routing.Tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="Routing" executed="True" result="Failure" success="False" time="0.2092" asserts="0" description="Routing">
+            <results>
+              <test-suite type="TestFixture" name="When requesting a webpage with a request string" executed="True" result="Failure" success="False" time="0.2092" asserts="0" description="When requesting a webpage with a request string">
+                <results>
+                  <test-case description="Finds FastRequest" name="Routing.When requesting a webpage with a request string.Finds FastRequest" time="0.1401" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="Tries to invoke a controller function that does not exist, but the route match was successful." name="Routing.When requesting a webpage with a request string.Tries to invoke a controller function that does not exist, but the route match was successful." time="0.0282" asserts="0" success="False" result="Failure" executed="True">
+                    <failure>
+                      <message>The property 'StatusCode' cannot be found on this object. Verify that the property exists and can be set.</message>
+                      <stack-trace>at &lt;ScriptBlock&gt;, C:\Users\steve\Documents\GitHub\PowerSurge\PowerSurgeInfrastructure\PowerSurgeInfrastructure\PowerSurgeMVC\Core\Routing.Tests.ps1: line 25
+25: 			$res =	Route-Request -requestedURL '/NoRoute' -isAJAXRequest $false 
+</stack-trace>
+                    </failure>
+                  </test-case>
+                  <test-case description="Invokes a controller's function that accepts 2 params, and the route match is successful." name="Routing.When requesting a webpage with a request string.Invokes a controller's function that accepts 2 params, and the route match is successful." time="0.0408" asserts="0" success="False" result="Failure" executed="True">
+                    <failure>
+                      <message>The property 'StatusCode' cannot be found on this object. Verify that the property exists and can be set.</message>
+                      <stack-trace>at &lt;ScriptBlock&gt;, C:\Users\steve\Documents\GitHub\PowerSurge\PowerSurgeInfrastructure\PowerSurgeInfrastructure\PowerSurgeMVC\Core\Routing.Tests.ps1: line 30
+30: 			$res = Route-Request -requestedURL '/TestRoute/4/5' -isAJAXRequest $false 
+</stack-trace>
+                    </failure>
+                  </test-case>
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+      <test-suite type="TestFixture" name="C:\Users\steve\Documents\GitHub\PowerSurge\PowerSurgeInfrastructure\PowerSurgeInfrastructure\PowerSurgeMVC\Core\RoutingClassic.tests.ps1" executed="True" result="Inconclusive" success="True" time="0.1148" asserts="0" description="C:\Users\steve\Documents\GitHub\PowerSurge\PowerSurgeInfrastructure\PowerSurgeInfrastructure\PowerSurgeMVC\Core\RoutingClassic.tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="RoutingClassic" executed="True" result="Inconclusive" success="True" time="0.1148" asserts="0" description="RoutingClassic">
+            <results>
+              <test-suite type="TestFixture" name="Exists" executed="True" result="Inconclusive" success="True" time="0.1148" asserts="0" description="Exists">
+                <results>
+                  <test-case description="Runs" name="RoutingClassic.Exists.Runs" time="0.1148" asserts="0" success="True" result="Inconclusive" executed="True" />
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+      <test-suite type="TestFixture" name="C:\Users\steve\Documents\GitHub\PowerSurge\PowerSurgeInfrastructure\PowerSurgeInfrastructure\PowerSurgeMVC\Core\securityutilityfunctions.tests.ps1" executed="True" result="Inconclusive" success="True" time="0.1012" asserts="0" description="C:\Users\steve\Documents\GitHub\PowerSurge\PowerSurgeInfrastructure\PowerSurgeInfrastructure\PowerSurgeMVC\Core\securityutilityfunctions.tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="securityutilityfunctions" executed="True" result="Inconclusive" success="True" time="0.1012" asserts="0" description="securityutilityfunctions">
+            <results>
+              <test-suite type="TestFixture" name="Exists" executed="True" result="Inconclusive" success="True" time="0.1012" asserts="0" description="Exists">
+                <results>
+                  <test-case description="Runs" name="securityutilityfunctions.Exists.Runs" time="0.1012" asserts="0" success="True" result="Inconclusive" executed="True" />
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+      <test-suite type="TestFixture" name="C:\Users\steve\Documents\GitHub\PowerSurge\PowerSurgeInfrastructure\PowerSurgeInfrastructure\PowerSurgeMVC\Core\URL.tests.ps1" executed="True" result="Success" success="True" time="0.3787" asserts="0" description="C:\Users\steve\Documents\GitHub\PowerSurge\PowerSurgeInfrastructure\PowerSurgeInfrastructure\PowerSurgeMVC\Core\URL.tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="Fixing up URLs" executed="True" result="Success" success="True" time="0.1957" asserts="0" description="Fixing up URLs">
+            <results>
+              <test-suite type="TestFixture" name="When I pass in a URL string" executed="True" result="Success" success="True" time="0.1957" asserts="0" description="When I pass in a URL string">
+                <results>
+                  <test-case description="should always trim the first slash" name="Fixing up URLs.When I pass in a URL string.should always trim the first slash" time="0.1184" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="should always trim the last slash" name="Fixing up URLs.When I pass in a URL string.should always trim the last slash" time="0.0206" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="should always return the original string if no slashes in" name="Fixing up URLs.When I pass in a URL string.should always return the original string if no slashes in" time="0.0185" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="should always return an empty string if // given" name="Fixing up URLs.When I pass in a URL string.should always return an empty string if // given" time="0.0179" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="should always return an empty string if // given" name="Fixing up URLs.When I pass in a URL string.should always return an empty string if // given" time="0.0203" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="Validating URLs" executed="True" result="Success" success="True" time="0.183" asserts="0" description="Validating URLs">
+            <results>
+              <test-suite type="TestFixture" name="when a URL is given" executed="True" result="Success" success="True" time="0.183" asserts="0" description="when a URL is given">
+                <results>
+                  <test-case description="succeeds if a well formed URL is given" name="Validating URLs.when a URL is given.succeeds if a well formed URL is given" time="0.0937" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="falis if a string with a space is given" name="Validating URLs.when a URL is given.falis if a string with a space is given" time="0.0119" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="succeeds if a string with a number is given" name="Validating URLs.when a URL is given.succeeds if a string with a number is given" time="0.0146" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="succeeds if a string with multiple URL sections are given" name="Validating URLs.when a URL is given.succeeds if a string with multiple URL sections are given" time="0.0165" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="succeeds if a string with multiple URL sections are given" name="Validating URLs.when a URL is given.succeeds if a string with multiple URL sections are given" time="0.0167" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="succeeds if a string containing a dash is given" name="Validating URLs.when a URL is given.succeeds if a string containing a dash is given" time="0.0145" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="fails if a string containing a backslash is given" name="Validating URLs.when a URL is given.fails if a string containing a backslash is given" time="0.0152" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+      <test-suite type="TestFixture" name="C:\Users\steve\Documents\GitHub\PowerSurge\PowerSurgeInfrastructure\PowerSurgeInfrastructure\PowerSurgeMVC\Core\ViewHelperFunctions.tests.ps1" executed="True" result="Inconclusive" success="True" time="0.1031" asserts="0" description="C:\Users\steve\Documents\GitHub\PowerSurge\PowerSurgeInfrastructure\PowerSurgeInfrastructure\PowerSurgeMVC\Core\ViewHelperFunctions.tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="ViewHelperFunctions" executed="True" result="Inconclusive" success="True" time="0.1031" asserts="0" description="ViewHelperFunctions">
+            <results>
+              <test-suite type="TestFixture" name="Exists" executed="True" result="Inconclusive" success="True" time="0.1031" asserts="0" description="Exists">
+                <results>
+                  <test-case description="Runs" name="ViewHelperFunctions.Exists.Runs" time="0.1031" asserts="0" success="True" result="Inconclusive" executed="True" />
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+      <test-suite type="TestFixture" name="C:\Users\steve\Documents\GitHub\PowerSurge\PowerSurgeInfrastructure\PowerSurgeInfrastructure\PowerSurgeMVC\Core\ViewLoader.Tests.ps1" executed="True" result="Success" success="True" time="0" asserts="0" description="C:\Users\steve\Documents\GitHub\PowerSurge\PowerSurgeInfrastructure\PowerSurgeInfrastructure\PowerSurgeMVC\Core\ViewLoader.Tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="ViewLoader" executed="True" result="Success" success="True" time="0" asserts="0" description="ViewLoader">
+            <results />
+          </test-suite>
+        </results>
+      </test-suite>
+      <test-suite type="TestFixture" name="C:\Users\steve\Documents\GitHub\PowerSurge\PowerSurgeInfrastructure\PowerSurgeInfrastructure\PowerSurgeMVC.Integration.Tests\Controllers\CustomHeaderController.Integration.Tests.ps1" executed="True" result="Failure" success="False" time="0.4034" asserts="0" description="C:\Users\steve\Documents\GitHub\PowerSurge\PowerSurgeInfrastructure\PowerSurgeInfrastructure\PowerSurgeMVC.Integration.Tests\Controllers\CustomHeaderController.Integration.Tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="CustomHeaderController - Send an HTTP request to the CustomHeaderController with an arbitrary key value pair." executed="True" result="Failure" success="False" time="0.3444" asserts="0" description="CustomHeaderController - Send an HTTP request to the CustomHeaderController with an arbitrary key value pair.">
+            <results>
+              <test-case description="Error occurred in Describe block" name="CustomHeaderController - Send an HTTP request to the CustomHeaderController with an arbitrary key value pair..Error occurred in Describe block" time="0.3444" asserts="0" success="False" result="Failure" executed="True">
+                <failure>
+                  <message>The remote server returned an error: (404) Not Found.</message>
+                  <stack-trace>At C:\Users\steve\Documents\GitHub\PowerSurge\PowerSurgeInfrastructure\PowerSurgeInfrastructure\PowerSurgeMVC.Integration.Tests\Controllers\CustomHeaderController.Integration.Tests.ps1:21 char:24</stack-trace>
+                </failure>
+              </test-case>
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="RouteInjection" executed="True" result="Inconclusive" success="True" time="0.059" asserts="0" description="RouteInjection">
+            <results>
+              <test-case description="Injects a route into the route table" name="RouteInjection.Injects a route into the route table" time="0.059" asserts="0" success="True" result="Inconclusive" executed="True" />
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+      <test-suite type="TestFixture" name="C:\Users\steve\Documents\GitHub\PowerSurge\PowerSurgeInfrastructure\PowerSurgeInfrastructure\PowerSurgeMVC.Integration.Tests\staticfilehanders\staticfilehandlers.Tests.ps1" executed="True" result="Failure" success="False" time="0.0801" asserts="0" description="C:\Users\steve\Documents\GitHub\PowerSurge\PowerSurgeInfrastructure\PowerSurgeInfrastructure\PowerSurgeMVC.Integration.Tests\staticfilehanders\staticfilehandlers.Tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="Static File Handlers" executed="True" result="Failure" success="False" time="0.0801" asserts="0" description="Static File Handlers">
+            <results>
+              <test-suite type="TestFixture" name="When loading a static file" executed="True" result="Failure" success="False" time="0.0801" asserts="0" description="When loading a static file">
+                <results>
+                  <test-case description="Error occurred in Context block" name="Static File Handlers.When loading a static file.Error occurred in Context block" time="0.0801" asserts="0" success="False" result="Failure" executed="True">
+                    <failure>
+                      <message>The variable '$PowerSurgeFolderPath' cannot be retrieved because it has not been set.</message>
+                      <stack-trace>At C:\Users\steve\Documents\GitHub\PowerSurge\PowerSurgeInfrastructure\PowerSurgeInfrastructure\PowerSurgeMVC.Integration.Tests\staticfilehanders\staticfilehandlers.Tests.ps1:7 char:31</stack-trace>
+                    </failure>
+                  </test-case>
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

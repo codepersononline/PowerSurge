@@ -1,6 +1,5 @@
-$PowerSurgeMVCPath = 'C:\Users\steve\Documents\GitHub\PowerSurge\PowerSurgeInfrastructure\PowerSurgeInfrastructure\PowerSurgeMVC\PowerSurgeMVC'
-cd $PowerSurgeMVCPath
-Import-Module "$PowerSurgeMVCPath\core\ViewLoader.psm1";
+
+Import-Module ".\PowerSurgeMVC\core\ViewLoader.psm1";
 
 Describe 'ViewLoader' {
 

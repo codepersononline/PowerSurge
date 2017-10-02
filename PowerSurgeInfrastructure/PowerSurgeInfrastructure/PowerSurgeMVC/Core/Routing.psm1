@@ -1,9 +1,24 @@
-﻿param(
+﻿<#
+.SYNOPSIS
+PowerSurge Routing module handles the dispatching of user requests to the correct route.
+#>
+
+param(
 	$webAppPath
 )
 
-Import-Module $webAppPath\core\URL.psm1 -DisableNameChecking
+Import-Module $webAppPath\core\URL.psm1 -DisableNameChecking;
 
+<#
+.SYNOPSIS
+Helper function that confirms that the Controller maps to a valid file on disk. Returns the file path if successful.
+
+.PARAMETER webAppPath
+The folder path of the current website, unless otherwise specified.
+
+.PARAMETER Name
+The name of the Controller
+#>
 function Get-ControllerFilePath {
 	param(
 		[string] $webAppPath = $script:webAppPath,
@@ -22,8 +37,6 @@ function Get-ControllerFilePath {
 			throw "Controller at $fPath does not exist."
 		}
 	} 
-#Import-Module $webAppPath\core\securityutilityfunctions.psm1;
-#Import-Module $webAppPath\core\HttpUtility.psm1;
 
 . $webAppPath\core\viewhelperfunctions.ps1;
 
