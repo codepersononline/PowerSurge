@@ -21,8 +21,8 @@ Describe 'Routing' {
  				at Init-PowerSurgeEnvironment, C:\Users\steve\Documents\GitHub\PowerSurge\PowerSurgeInfrastructure\PowerSurgeInfrastructure\PowerSurgeMVC\PowerSurgeMVC\core\init.ps1: line 13
 
 			#>
-			$res =	Route-Request -requestedURL '/NoRoute' -isAJAXRequest $false 
-			$res -match	'Route-Request: Unable to find function:' | should throw
+			$res = Route-Request -requestedURL '/NoRoute' -isAJAXRequest $false 
+			$res -match	'Route-Request: Unable to find function:' | should be $true
 		}
 
 		It "Invokes a controller's function that accepts 2 params, and the route match is successful." { 

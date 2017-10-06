@@ -1,6 +1,7 @@
 function Get-Routes {
 	$routes = New-Object System.Collections.Generic.List[System.Object[]];
     $routes.Add( @('^insertcustomheader/(steve)/(rathbone)$', 'CustomHeader', 'Insert-CustomHeader'))
+    $routes.Add( @('^NoRoute$', 'CustomHeader', 'UndefinedFunction'))
 	
 	$routes.Add( @('^getcurrentthread$', 'Threading', 'getcurrentthread'))
 	$routes.Add( @('^getappdomain$','Threading','GetAppDomain'))

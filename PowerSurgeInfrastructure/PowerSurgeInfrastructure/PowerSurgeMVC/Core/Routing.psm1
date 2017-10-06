@@ -11,7 +11,7 @@ Import-Module $webAppPath\core\URL.psm1 -DisableNameChecking;
 
 <#
 .SYNOPSIS
-Helper function that confirms that the Controller maps to a valid file on disk. Returns the file path if successful.
+Helper function that confirms if the Controller parameter maps to a valid file on disk. Returns the file path if successful.
 
 .PARAMETER webAppPath
 The folder path of the current website, unless otherwise specified.

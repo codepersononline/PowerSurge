@@ -1,21 +1,11 @@
 function Get-Routes {
 	$routes = New-Object System.Collections.Generic.List[System.Object[]];
     $routes.Add( @('^insertcustomheader/(steve)/(rathbone)$', 'CustomHeader', 'Insert-CustomHeader'))
+    $routes.Add( @('^NoRoute$', 'CustomHeader', 'UndefinedFunction'))
 	
 	$routes.Add( @('^getcurrentthread$', 'Threading', 'getcurrentthread'))
 	$routes.Add( @('^getappdomain$','Threading','GetAppDomain'))
-	<#
-	$routes.Add( @('^module/AboutMe$',$ModuleController.AboutMe)) 
-	$routes.Add( @('^module/AddTwoNumbers/([0-9])/([0-9])$',$ModuleController.AddTwoNumbers)) 
-	$routes.Add( @('^module/Download$',$ModuleController.Download)) 
-	$routes.Add( @('^module/SimpleForm$',$ModuleController.SimpleForm,'Module'))
-
-	$routes.Add( @('^psobject/AboutMe$',$PSObjectController.AboutMe)) 
-	$routes.Add( @('^psobject/AddTwoNumbers/([0-9])/([0-9])$',$PSObjectController.AddTwoNumbers)) 
-	$routes.Add( @('^psobject/Download$',$PSObjectController.Download)) 
 	
-	$routes.Add( @('^insertcustomheader/([a-z].*)/([a-z].*)', $CustomHeaderController.'Insert-CustomHeader')) #see unit tests.
-	$routes.Add( @('^Performance/FastRequest',$PerformanceController.FastRequest))	#>
 	$routes.Add( @('^Performance/FastRequest','Performance','FastRequest'))
 	$routes.Add( @('^Performance/SlowRequest/([0-9]{2})','Performance','SlowRequest'))
 
