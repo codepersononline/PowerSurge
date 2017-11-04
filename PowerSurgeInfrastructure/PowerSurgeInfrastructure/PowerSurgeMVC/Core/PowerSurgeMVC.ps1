@@ -17,20 +17,15 @@ param(
 	[System.Web.HttpResponse] $response,
 	[string] $AppDomainPath
 )   
-	Import-Module $PowerSurgeAppPath\config.psm1 -DisableNameChecking;
+	Import-Module $PowerSurgeAppPath\Config.psm1 -DisableNameChecking;
 	$global:request = $request;
 	$global:response = $response;
 
-	Import-Module $PowerSurgeAppPath\core\Debugging.psm1 -DisableNameChecking;
-	
+	Import-Module $PowerSurgeAppPath\core\Debugging.psm1 -DisableNameChecking;	
 	Import-Module $PowerSurgeAppPath\core\HttpUtility.psm1 -DisableNameChecking;
 	Import-Module $PowerSurgeAppPath\core\HttpMethods.psm1 -DisableNameChecking;
 	Import-Module $PowerSurgeAppPath\core\Routing.psm1 -ArgumentList $PowerSurgeAppPath -Function 'Route-Request'
 
-	#Import-Module $PowerSurgeAppPath\App.psm1 -ArgumentList $PowerSurgeAppPath
-	
-
-	#App\Initialize-App;
 	Initialize-Logging;
 
 	Set-Variable -Name 'baseURL' `
@@ -43,7 +38,7 @@ param(
 	#Get-CurrentListOfFunctions;
 	$ajaxResult = HttpMethods\Request-HTTPAJAX $request.Headers["X-Requested-With"];
 	
-	[string[]] $renderedResponse = Route-Request $request.rawURL $ajaxresult #-Routes (Get-Routes)
+	[string[]] $renderedResponse = Route-Request $request.rawURL $ajaxresult;
 	
 	if($global:AppConfig.debugging -eq $true) {
 		return $renderedResponse  + $(Get-DebuggingPage);

@@ -10,7 +10,7 @@ $global:AppConfig = @{
     'ApplicationName' = 'PowerSurge MVC';
     'Logging' = $false;
     'Debugging' = $false;
-    'DBConnectionString' = 'Data Source=.\SQLEXPRESS;Integrated Security=SSPI;Initial Catalog=LeslieMVCBlog';
+    'DBConnectionString' = '';
     'UseGlobalView' = $true;
     'defaultRoute' ='/Home/Index'
 }
