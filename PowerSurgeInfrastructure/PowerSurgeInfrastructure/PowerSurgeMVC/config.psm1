@@ -5,7 +5,7 @@
 $Global:AppConfig = @{
     'ApplicationName' = 'PowerSurge MVC';
     'Logging' = $false;
-    'Debugging' = $true;
+    'Debugging' = $false;
     'DBConnectionString' = '';
     'UseGlobalView' = $true;
 }
