@@ -76,6 +76,7 @@ namespace PowerSurgeInfrastructure
                     }
                     // close the runspace and return the result to IIS to be transmitted back to the user. we are now done.
                     PowersurgeRunspace.Close();
+                    pShell.Dispose();
                     return nonTerminatingErrors.Append(HTMLOutput.ToString()).ToString();
                 }
                 catch (RuntimeException runtimeException) {

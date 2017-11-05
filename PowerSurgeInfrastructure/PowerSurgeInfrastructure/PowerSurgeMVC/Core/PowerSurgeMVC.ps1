@@ -8,7 +8,7 @@ Set-StrictMode -Version Latest;
 
 Set-Variable -Name 'PowerSurgeAppPath' `
 			 -Value ([string]::Concat($AppDomainPath, 'PowerSurgeMVC')) `
-			 -Option Constant;
+			 -Option Constant -Scope global
 
 function Start-PowerSurge {
 [cmdletbinding()]	
@@ -26,7 +26,7 @@ param(
 	Import-Module $PowerSurgeAppPath\core\HttpMethods.psm1 -DisableNameChecking;
 	Import-Module $PowerSurgeAppPath\core\Routing.psm1 -ArgumentList $PowerSurgeAppPath -Function 'Route-Request'
 	Import-Module $PowerSurgeAppPath\App.psm1 -ArgumentList $PowerSurgeAppPath -Function 'Initialize-App'
-
+	
 	Initialize-Logging;
 	Initialize-App;
 
